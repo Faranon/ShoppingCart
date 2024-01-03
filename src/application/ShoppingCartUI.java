@@ -26,26 +26,10 @@ public class ShoppingCartUI extends Application {
 		Product newProduct = new Product("Soap", "fill", "fill", 1000);
 		Product newProduct2 = new Product("Plate", "Something", "Nothing", 1);
 		ProductList products = new ProductList();
+		
 		products.addProduct(newProduct);
-		System.out.println(newProduct);
-		
-		newProduct.setProductName("Bar Soap");
-		newProduct.setCategory("Soap");
-		newProduct.setBrand("Dawn");
-		newProduct.setQuantity(50);
-		
 		products.addProduct(newProduct2);
 		
-		System.out.println(newProduct);
-		System.out.println(newProduct.getProductName());
-		System.out.println(newProduct.getCategory());
-		System.out.println(newProduct.getBrand());
-		System.out.println(newProduct.getQuantity());
-		
-		products.displayProducts();
-		products.removeProduct(newProduct2);
-		products.removeProduct(newProduct);
-		products.removeProduct(newProduct);
 		products.displayProducts();
 	}
 }
