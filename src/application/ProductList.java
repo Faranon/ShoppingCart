@@ -1,10 +1,12 @@
 package application;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ProductList {
+public class ProductList implements Iterable<Product>, Serializable{
+	private static final long serialVersionUID = 1L;
 	private List<Product> products;
 	
 	public ProductList() {
@@ -33,5 +35,10 @@ public class ProductList {
 		for(Product product : products) {
 			System.out.println(product);
 		}
+	}
+
+	@Override
+	public Iterator<Product> iterator() {
+		return products.iterator();
 	}
 }

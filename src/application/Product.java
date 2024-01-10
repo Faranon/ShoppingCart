@@ -1,9 +1,13 @@
 package application;
 
-public class Product {
-	String productName, category, brand;
-	int quantity, productID;
-	static int counterID;
+import java.io.Serializable;
+
+public class Product implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private String productName, category, brand;
+	private int quantity, productID;
+	private static int counterID;
 	
 	public Product(String name, String brand, String category, int quantity) {
 		this.productName = name;
