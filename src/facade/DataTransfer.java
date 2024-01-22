@@ -5,6 +5,7 @@ import entities.Product;
 public abstract class DataTransfer {
 	private String productName, category, brand;
 	private int quantity, productID;
+	private double price;
 	
 	public DataTransfer() {
 		//reset();
@@ -16,6 +17,7 @@ public abstract class DataTransfer {
 		brand = product.getBrand();
 		quantity = product.getQuantity();
 		productID = product.getProductID();
+		price = product.getPrice();
 	}
 	
 	// getters and setters for product
@@ -39,6 +41,10 @@ public abstract class DataTransfer {
 		return productID;
 	}
 	
+	public double getPrice() {
+		return price;
+	}
+	
 	public void setProductName(String newProductName) {
 		this.productName = newProductName;
 	}
@@ -51,7 +57,11 @@ public abstract class DataTransfer {
 		this.brand = newBrand;
 	}
 	
-	public void setProductName(int newQuantity) {
+	public void setQuantity(int newQuantity) {
 		this.quantity = newQuantity;
+	}
+	
+	public void setPrice(double newPrice) {
+		this.price = newPrice;
 	}
 }

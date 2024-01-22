@@ -14,27 +14,16 @@ import javafx.scene.layout.StackPane;
 
 public class ShoppingCartGUI extends Application {
 	private GUIButton addProductButton;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Shopping Cart");
 		addProductButton = new AddProductButton("Add Product");
 		
 		Group root = new Group(addProductButton);
-		Scene scene = new Scene(root, 600, 200);
+		Scene scene = new Scene(root, 500, 300);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
-		
-		/*Button button1 = new Button();
-		button1.setText("Add Product");
-		button1.setTranslateX(150);
-		button1.setTranslateY(60);
-		
-		Group root = new Group(button1);
-		Scene scene = new Scene(root, 595, 150);
-		primaryStage.setTitle("Shopping Cart");
-		primaryStage.setScene(scene);
-		primaryStage.show();*/
 		
 	}
 	

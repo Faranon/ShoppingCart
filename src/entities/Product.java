@@ -7,13 +7,15 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String productName, category, brand;
 	private int quantity, productID;
+	private double price;
 	private static int counterID;
 	
-	public Product(String name, String brand, String category, int quantity) {
+	public Product(String name, String brand, String category, double price, int quantity) {
 		this.productName = name;
 		this.brand = brand;
 		this.category = category;
 		this.quantity = quantity;
+		this.price = price;
 		
 		productID = counterID++;
 	}
@@ -40,6 +42,10 @@ public class Product implements Serializable {
 		this.quantity = quantity;
 	}
 	
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
 	// Getters
 	public int getProductID() {
 		return productID;
@@ -59,6 +65,10 @@ public class Product implements Serializable {
 	
 	public int getQuantity() {
 		return quantity;
+	}
+	
+	public double getPrice() {
+		return price;
 	}
 	
 	// toString

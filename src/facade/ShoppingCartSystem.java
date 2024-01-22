@@ -7,14 +7,26 @@ import java.io.Reader;
 import java.io.Serializable;
 
 import collections.ProductList;
+import entities.Product;
 
 public class ShoppingCartSystem implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private ProductList products = ProductList.getInstance();
-	private ShoppingCartSystem system;
 	private BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
 	
-	private ShoppingCartSystem() {}
+	private static ShoppingCartSystem system;
+	
+	private ShoppingCartSystem() {
+		system = this;
+	}
+	
+	public static ShoppingCartSystem getInstance() {
+		if(system == null) {
+			system = new ShoppingCartSystem();
+		}
+		
+		return system;
+	}
 	
 	public String getInput(String prompt) {
 		do {
@@ -28,7 +40,10 @@ public class ShoppingCartSystem implements Serializable{
 		} while(true);
 	}
 	
-	public void addProduct() {
+	public void addProduct(String productName, String brand, String category, double price, int quantity) {
+		Product newProduct = new Product(productName, brand, category, price, quantity);
 		
+		products.addProduct(newProduct);
+		products.displayProducts();
 	}
 }
