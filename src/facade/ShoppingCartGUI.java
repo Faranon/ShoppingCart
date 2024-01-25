@@ -8,8 +8,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 
 
 public class ShoppingCartGUI extends Application {
@@ -29,14 +27,6 @@ public class ShoppingCartGUI extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
-		
-		/*Product newProduct = new Product("Soap", "fill", "fill", 1000);
-		Product newProduct2 = new Product("Plate", "Something", "Nothing", 1);
-		ProductList products = new ProductList();
-		
-		products.addProduct(newProduct);
-		products.addProduct(newProduct2);
-		
-		products.displayProducts();*/
+
 	}
 }
