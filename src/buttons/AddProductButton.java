@@ -18,6 +18,12 @@ public class AddProductButton extends GUIButton implements EventHandler<ActionEv
 	private TextField productPriceTF = new TextField();
 	private TextField productQuantityTF = new TextField();
 	
+	private Label productNameL = new Label("Product Name:");
+	private Label productCategoryL = new Label("Product Category:");
+	private Label productBrandL = new Label("Product Brand:");
+	private Label productPriceL = new Label("Product Price:");
+	private Label productQuantityL = new Label("Product Quantity:");
+	
 	private Stage addProductStage = new Stage();
 	
 	public AddProductButton(String buttonName) {
@@ -26,12 +32,6 @@ public class AddProductButton extends GUIButton implements EventHandler<ActionEv
 
 	@Override
 	public void handle(ActionEvent arg0) {
-		Label productName = new Label("Product Name:");
-		Label productCategory = new Label("Product Category:");
-		Label productBrand= new Label("Product Brand:");
-		Label productPrice = new Label("Product Price:");
-		Label productQuantity = new Label("Product Quantity:");
-		
 		Button cancelButton = new Button("Cancel");
 		Button confirmButton = new Button("Confirm");
 		
@@ -43,31 +43,110 @@ public class AddProductButton extends GUIButton implements EventHandler<ActionEv
 		
 		hbox.getChildren().addAll(cancelButton, confirmButton);
 		
-		vbox.getChildren().addAll(productName, productNameTF, productCategory, productCategoryTF,
-				productBrand, productBrandTF, productPrice, productPriceTF, productQuantity,
+		vbox.getChildren().addAll(productNameL, productNameTF, productCategoryL, productCategoryTF,
+				productBrandL, productBrandTF, productPriceL, productPriceTF, productQuantityL,
 				productQuantityTF, hbox);
 		
-		Scene scene = new Scene(vbox, 300, 350);
+		Scene scene = new Scene(vbox, 400, 350);
 		addProductStage.setScene(scene);
 		addProductStage.show();
 	}
 	
 	private void confirmButtonClicked(ActionEvent event) {
-		String getProductName = productNameTF.getText();
-		String getProductBrand = productBrandTF.getText();
-		String getProductCategory= productCategoryTF.getText();
-		String getProductPrice = productPriceTF.getText();
-		String getProductQuantity = productQuantityTF.getText();
-		
-		double price = Double.valueOf(getProductPrice);
-		int quantity = Integer.parseInt(getProductQuantity);
-		
-		ShoppingCartSystem.getInstance().addProduct(getProductName, getProductBrand, getProductCategory, price, quantity);
-		
-		addProductStage.close();
+		if(validateInput()) {
+			double price = Double.valueOf(productPriceTF.getText());
+			int quantity = Integer.parseInt(productQuantityTF.getText());
+			
+			ShoppingCartSystem.getInstance().addProduct(productNameTF.getText(), productBrandTF.getText(),
+					productCategoryTF.getText(), price, quantity);
+			
+			clearFields();
+			
+			addProductStage.close();
+		}
 	}
 	
 	private void cancelButtonClicked(ActionEvent event) {
 		addProductStage.close();
+	}
+	
+	private boolean validateInput() {
+		boolean checkPriceInput = validatePriceInput(productPriceTF);
+		boolean checkQuantityInput = validateQuantityInput(productQuantityTF);
+		boolean checkProductNameInput = checkProductNameTF();
+		boolean checkProductCategoryInput = checkProductCategoryTF();
+		boolean checkBrandNameInput = checkBrandNameTF();
+		return checkProductNameInput && checkProductCategoryInput && checkBrandNameInput &&
+				checkPriceInput && checkQuantityInput;
+	}
+	
+	private boolean checkProductNameTF() {
+		if(productNameTF.getText().isEmpty()) {
+			productNameTF.setStyle("-fx-border-color: red;");
+			productNameL.setText("Product Name: CAN'T BE LEFT EMPTY");
+			return false;
+		} else {
+			productNameTF.setStyle("-fx-border-color: none;");
+			productNameL.setText("Product Name:");
+			return true;
+		}
+	}
+	
+	private boolean checkProductCategoryTF() {
+		if(productCategoryTF.getText().isEmpty()) {
+			productCategoryTF.setStyle("-fx-border-color: red;");
+			productCategoryL.setText("Product Category: CAN'T BE LEFT EMPTY");
+			return false;
+		} else {
+			productCategoryTF.setStyle("-fx-border-color: none;");
+			productCategoryL.setText("Product Category:");
+			return true;
+		}
+	}
+	
+	private boolean checkBrandNameTF() {
+		if(productBrandTF.getText().isEmpty()) {
+			productBrandTF.setStyle("-fx-border-color: red;");
+			productBrandL.setText("Product Brand: CAN'T BE LEFT EMPTY");
+			return false;
+		} else {
+			productBrandTF.setStyle("-fx-border-color: none;");
+			productBrandL.setText("Product Brand:");
+			return true;
+		}
+	}
+	
+	private boolean validatePriceInput(TextField priceTF) {
+		try {
+			double price = Double.valueOf(productPriceTF.getText());
+			priceTF.setStyle("-fx-border-color: none;");
+			productPriceL.setText("Product Price:");
+			return true;
+		} catch(NumberFormatException e) {
+			priceTF.setStyle("-fx-border-color: red;");
+			productPriceL.setText("Product Price: INVALID, MAKE SURE PRICE IS NUMERICAL!");
+			return false;
+		}
+	}
+	
+	private boolean validateQuantityInput(TextField quantityTF) {
+		try {
+			int quantity = Integer.parseInt(productQuantityTF.getText());
+			quantityTF.setStyle("-fx-border-color: none;");
+			productQuantityL.setText("Product Quantity:");
+			return true;
+		} catch(NumberFormatException e) {
+			quantityTF.setStyle("-fx-border-color: red;");
+			productQuantityL.setText("Product Quantity: INVALID, HAS TO BE A WHOLE NUMBER!");
+			return false;
+		}
+	}
+	
+	private void clearFields() {
+		productNameTF.clear();
+		productBrandTF.clear();
+		productCategoryTF.clear();
+		productPriceTF.clear();
+		productQuantityTF.clear();
 	}
 }

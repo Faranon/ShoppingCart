@@ -30,19 +30,19 @@ public class Product implements Serializable {
 		this.productName = name;
 	}
 	
-	public void setCategory(String category) {
+	public void setProductCategory(String category) {
 		this.category = category;
 	}
 	
-	public void setBrand(String brand) {
+	public void setProductBrand(String brand) {
 		this.brand = brand;
 	}
 	
-	public void setQuantity(int quantity) {
+	public void setProductQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 	
-	public void setPrice(double price) {
+	public void setProductPrice(double price) {
 		this.price = price;
 	}
 	
@@ -55,19 +55,19 @@ public class Product implements Serializable {
 		return productName;
 	}
 	
-	public String getCategory() {
+	public String getProductCategory() {
 		return category;
 	}
 	
-	public String getBrand() {
+	public String getProductBrand() {
 		return brand;
 	}
 	
-	public int getQuantity() {
+	public int getProductQuantity() {
 		return quantity;
 	}
 	
-	public double getPrice() {
+	public double getProductPrice() {
 		return price;
 	}
 	

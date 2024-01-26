@@ -39,8 +39,10 @@ public class ShoppingCartSystem implements Serializable{
 		} while(true);
 	}
 	
-	public void addProduct(String productName, String brand, String category, double price, int quantity) {
-		Product newProduct = new Product(productName, brand, category, price, quantity);
+	public void addProduct(String productName, String productBrand, String productCategory,
+			double productPrice, int productQuantity) {
+		Product newProduct = new Product(productName, productBrand, productCategory,
+				productPrice, productQuantity);
 		
 		products.addProduct(newProduct);
 		products.displayProducts();

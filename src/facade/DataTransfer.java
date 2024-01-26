@@ -13,11 +13,11 @@ public abstract class DataTransfer {
 	
 	public void setProductFields(Product product) {
 		productID = product.getProductID();
-		category = product.getCategory();
-		brand = product.getBrand();
-		quantity = product.getQuantity();
+		category = product.getProductCategory();
+		brand = product.getProductBrand();
+		quantity = product.getProductQuantity();
 		productID = product.getProductID();
-		price = product.getPrice();
+		price = product.getProductPrice();
 	}
 	
 	// getters and setters for product
@@ -25,15 +25,15 @@ public abstract class DataTransfer {
 		return productName;
 	}
 	
-	public String getCategory() {
+	public String getProductCategory() {
 		return category;
 	}
 	
-	public String getBrand() {
+	public String getProductBrand() {
 		return brand;
 	}
 	
-	public int getQuantity() {
+	public int getProductQuantity() {
 		return quantity;
 	}
 	
@@ -41,7 +41,7 @@ public abstract class DataTransfer {
 		return productID;
 	}
 	
-	public double getPrice() {
+	public double getProductPrice() {
 		return price;
 	}
 	
@@ -49,19 +49,19 @@ public abstract class DataTransfer {
 		this.productName = newProductName;
 	}
 	
-	public void setCategory(String newCategory) {
+	public void setProductCategory(String newCategory) {
 		this.category = newCategory;
 	}
 	
-	public void setBrand(String newBrand) {
+	public void setProductBrand(String newBrand) {
 		this.brand = newBrand;
 	}
 	
-	public void setQuantity(int newQuantity) {
+	public void setProductQuantity(int newQuantity) {
 		this.quantity = newQuantity;
 	}
 	
-	public void setPrice(double newPrice) {
+	public void setProductPrice(double newPrice) {
 		this.price = newPrice;
 	}
 }
