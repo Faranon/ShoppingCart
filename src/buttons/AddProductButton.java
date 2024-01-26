@@ -24,6 +24,9 @@ public class AddProductButton extends GUIButton implements EventHandler<ActionEv
 	private Label productPriceL = new Label("Product Price:");
 	private Label productQuantityL = new Label("Product Quantity:");
 	
+	private double productPrice;
+	private int productQuantity;
+	
 	private Stage addProductStage = new Stage();
 	
 	public AddProductButton(String buttonName) {
@@ -54,11 +57,8 @@ public class AddProductButton extends GUIButton implements EventHandler<ActionEv
 	
 	private void confirmButtonClicked(ActionEvent event) {
 		if(validateInput()) {
-			double price = Double.valueOf(productPriceTF.getText());
-			int quantity = Integer.parseInt(productQuantityTF.getText());
-			
 			ShoppingCartSystem.getInstance().addProduct(productNameTF.getText(), productBrandTF.getText(),
-					productCategoryTF.getText(), price, quantity);
+					productCategoryTF.getText(), productPrice, productQuantity);
 			
 			clearFields();
 			
@@ -118,7 +118,7 @@ public class AddProductButton extends GUIButton implements EventHandler<ActionEv
 	
 	private boolean validatePriceInput(TextField priceTF) {
 		try {
-			double price = Double.valueOf(productPriceTF.getText());
+			productPrice = Double.valueOf(productPriceTF.getText());
 			priceTF.setStyle("-fx-border-color: none;");
 			productPriceL.setText("Product Price:");
 			return true;
@@ -131,7 +131,7 @@ public class AddProductButton extends GUIButton implements EventHandler<ActionEv
 	
 	private boolean validateQuantityInput(TextField quantityTF) {
 		try {
-			int quantity = Integer.parseInt(productQuantityTF.getText());
+			productQuantity = Integer.parseInt(productQuantityTF.getText());
 			quantityTF.setStyle("-fx-border-color: none;");
 			productQuantityL.setText("Product Quantity:");
 			return true;
