@@ -19,7 +19,7 @@ public class ShoppingCartSystem implements Serializable{
 		system = this;
 	}
 	
-	public static ShoppingCartSystem getInstance() {
+	public static ShoppingCartSystem instance() {
 		if(system == null) {
 			system = new ShoppingCartSystem();
 		}
@@ -39,10 +39,57 @@ public class ShoppingCartSystem implements Serializable{
 		} while(true);
 	}
 	
+	public void openAddProductGUI() {
+		AddProductGUI addProductGUI = new AddProductGUI();
+	}
+	
+	public boolean checkProductNameField(String productName) {
+		if(productName.isEmpty())
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean checkProductBrandField(String productBrand) {
+		if(productBrand.isEmpty())
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean checkProductCategoryField(String productCategory) {
+		if(productCategory.isEmpty())
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean checkProductPriceField(String productPrice) {
+		try {
+			Double.parseDouble(productPrice);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+	
+	public boolean checkProductQuantityField(String productQuantity) {
+		try {
+			Integer.parseInt(productQuantity);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+	
 	public void addProduct(String productName, String productBrand, String productCategory,
-			double productPrice, int productQuantity) {
+			String productPrice, String productQuantity) {
+		
+		double convertedProductPrice = Double.parseDouble(productPrice);
+		int convertedProductQuantity = Integer.parseInt(productQuantity);
+		
 		Product newProduct = new Product(productName, productBrand, productCategory,
-				productPrice, productQuantity);
+				convertedProductPrice, convertedProductQuantity);
 		
 		products.addProduct(newProduct);
 		products.displayProducts();

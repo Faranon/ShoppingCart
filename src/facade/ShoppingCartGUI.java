@@ -2,8 +2,6 @@ package facade;
 	
 import buttons.AddProductButton;
 import buttons.GUIButton;
-//import collections.ProductList;
-//import entities.Product;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Group;
