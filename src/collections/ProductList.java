@@ -1,3 +1,7 @@
+/*
+ * ProductList class is a singleton that stores all products created by the user into one
+ * collection class.
+ */
 package collections;
 
 import java.io.Serializable;
@@ -12,19 +16,23 @@ public class ProductList implements Iterable<Product>, Serializable{
 	private List<Product> products = new ArrayList<Product>();
 	private static ProductList productList;
 	
+	// Singleton
 	private ProductList() {}
 	
-	public static ProductList getInstance() {
+	// Makes sure that only one instance of the products list exists
+	public static ProductList instance() {
 		if(productList == null)
 			productList = new ProductList();
 		
 		return productList;
 	}
 	
-	public Boolean addProduct(Product product) {
-		return products.add(product);
+	// Adds the product to the products list
+	public void addProduct(Product product) {
+		products.add(product);
 	}
 	
+	// Removes a product from the products list
 	public Boolean removeProduct(Product product) {
 		Iterator<Product> iterator = products.iterator();
 		
@@ -39,6 +47,7 @@ public class ProductList implements Iterable<Product>, Serializable{
 		return false;
 	}
 	
+	// Displays all all contents of the products list
 	public void displayProducts() {
 		for(Product product : products) {
 			System.out.println(product);

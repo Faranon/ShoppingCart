@@ -20,7 +20,6 @@ public class ShoppingCartGUI extends Application {
 		Scene scene = new Scene(root, 500, 300);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
 	}
 	
 	public static void main(String[] args) {

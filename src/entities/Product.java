@@ -1,15 +1,23 @@
+/*
+ * Product.java is a class that is used to create products.
+ */
 package entities;
 
 import java.io.Serializable;
 
 public class Product implements Serializable {
-
+	
 	private static final long serialVersionUID = 1L;
+	
+	// Attributes of product
 	private String productName, category, brand;
 	private int quantity, productID;
 	private double price;
+	
+	// Used to create unique ID's for each product that is created
 	private static int counterID;
 	
+	// Constructor of product. It automatically generates the product ID
 	public Product(String name, String brand, String category, double price, int quantity) {
 		this.productName = name;
 		this.brand = brand;
