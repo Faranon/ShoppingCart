@@ -102,4 +102,16 @@ public class ShoppingCartSystem implements Serializable{
 		
 		products.addProduct(newProduct);
 	}
+	
+	public ProductList getProductsList() {
+		return products;
+	}
+	
+	public void listProduct() {
+		products.displayProducts();
+	}
+	
+	public void loadProduct() {
+		System.out.println("Hello World");
+	}
 }
