@@ -3,7 +3,7 @@ package facade;
 import buttons.AddProductButton;
 import buttons.DeleteProductButton;
 import buttons.EditProductButton;
-import buttons.GUIButton;  
+import buttons.GUIButton;
 import buttons.LoadProductButton;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 
 
 public class InitializationGUI extends Application {
-	private GUIButton addProductButton, loadProductButton, editProductButton,
+	private GUIButton addProductButton, loadFileButton, editProductButton,
 		deleteProductButton;
 	
 	private ListView<String> listViewProducts;
@@ -27,7 +27,7 @@ public class InitializationGUI extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Initialization");
 		addProductButton = new AddProductButton("Add Product");
-		loadProductButton = new LoadProductButton("Load Product");
+		loadFileButton = new LoadProductButton("Load File");
 		editProductButton = new EditProductButton("Edit Product");
 		deleteProductButton = new DeleteProductButton("Delete Product");
 		
@@ -40,7 +40,7 @@ public class InitializationGUI extends Application {
 		HBox hListView = new HBox(100);
 		
 		// adds all buttons to the vBox
-		vButtonBox.getChildren().addAll(addProductButton, loadProductButton,
+		vButtonBox.getChildren().addAll(addProductButton, loadFileButton,
 				editProductButton, deleteProductButton, listProductButton);
 		
 		// adds the vButtonBox and listView to the hBox  

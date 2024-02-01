@@ -11,6 +11,6 @@ public class DeleteProductButton extends GUIButton implements EventHandler<Actio
 	
 	@Override
 	public void handle(ActionEvent arg0) {
-		ShoppingCartSystem.instance().loadProduct();
+		
 	}
 }

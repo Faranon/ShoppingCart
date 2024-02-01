@@ -11,6 +11,6 @@ public class EditProductButton extends GUIButton implements EventHandler<ActionE
 	
 	@Override
 	public void handle(ActionEvent arg0) {
-		ShoppingCartSystem.instance().loadProduct();
+		
 	}
 }

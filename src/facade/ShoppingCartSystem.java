@@ -5,6 +5,10 @@
  */
 package facade;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
 import collections.ProductList;
 import entities.Product;
@@ -116,7 +120,16 @@ public class ShoppingCartSystem implements Serializable{
 		return observableLP;
 	}
 	
-	public void loadProduct() {
-		System.out.println("Hello World");
+	public void readFile(File file) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Process each line (assuming it contains product information)
+                System.out.println("Read line: " + line);
+                // Parse the line and create Product objects if needed
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 }

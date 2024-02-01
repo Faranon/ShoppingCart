@@ -1,8 +1,12 @@
 package buttons;
 
+import java.io.File;
+
 import facade.ShoppingCartSystem;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class LoadProductButton extends GUIButton implements EventHandler<ActionEvent>{
 	public LoadProductButton(String buttonName) {
@@ -11,6 +15,14 @@ public class LoadProductButton extends GUIButton implements EventHandler<ActionE
 	
 	@Override
 	public void handle(ActionEvent arg0) {
-		ShoppingCartSystem.instance().loadProduct();
+		Stage stage = new Stage();
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Select File");
+		
+		File selectedFile = fileChooser.showOpenDialog(stage);
+		
+		ShoppingCartSystem.instance().readFile(selectedFile);
+		
+		//stage.show();
 	}
 }
