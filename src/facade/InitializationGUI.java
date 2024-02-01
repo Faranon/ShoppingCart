@@ -5,12 +5,11 @@ import buttons.DeleteProductButton;
 import buttons.EditProductButton;
 import buttons.GUIButton;  
 import buttons.LoadProductButton;
-import collections.ProductList;
-import entities.Product;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -22,6 +21,8 @@ public class InitializationGUI extends Application {
 	private GUIButton addProductButton, loadProductButton, editProductButton,
 		deleteProductButton;
 	
+	private ListView<String> listViewProducts;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Initialization");
@@ -31,24 +32,36 @@ public class InitializationGUI extends Application {
 		deleteProductButton = new DeleteProductButton("Delete Product");
 		
 		Button listProductButton = new Button("List Product");
-		
 		listProductButton.setOnAction(this::listProduct);
 		
-		//ListView<Product> listViewProducts = new ListView<>();
+		listViewProducts = new ListView<>();
 		
 		VBox vButtonBox = new VBox(10);
-		//HBox hBox = new HBox(100);
-		//hBox.getChildren().addAll(listViewProducts);
+		HBox hListView = new HBox(100);
+		
+		// adds all buttons to the vBox
 		vButtonBox.getChildren().addAll(addProductButton, loadProductButton,
 				editProductButton, deleteProductButton, listProductButton);
 		
-		Scene scene = new Scene(vButtonBox, 500, 300);
+		// adds the vButtonBox and listView to the hBox  
+		hListView.getChildren().addAll(vButtonBox, listViewProducts);
+		
+		Scene scene = new Scene(hListView, 500, 300);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 	
+	/*
+	 * This method creates an observableList in order to create a dynamic, observable list.
+	 * Then it calls a method in the ShoppingCartSystem called sendObservableLP to get the
+	 * list of products that were created. The listView then displays the observableList
+	 * and any changes to the observableList gets displayed in the listView.
+	 */
 	private void listProduct(ActionEvent event) {
+		ObservableList<String> observableProducts = FXCollections.observableArrayList();
+		ShoppingCartSystem.instance().sendObservableLP(observableProducts);
 		
+		listViewProducts.setItems(observableProducts);
 	}
 	
 	public static void main(String[] args) {

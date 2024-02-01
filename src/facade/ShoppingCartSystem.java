@@ -6,9 +6,9 @@
 package facade;
 
 import java.io.Serializable;
-
 import collections.ProductList;
 import entities.Product;
+import javafx.collections.ObservableList;
 
 public class ShoppingCartSystem implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -88,7 +88,8 @@ public class ShoppingCartSystem implements Serializable{
 	
 	/*
 	 * This method gets called in the AddProductGUI.java once all boolean checks pass true.
-	 * The product is then created and added to the products list.
+	 * The productPrice and productQuantity both get casted into a double and int. The
+	 * product is then created and added to the products list.
 	 */
 	public void addProduct(String productName, String productBrand, String productCategory,
 			String productPrice, String productQuantity) {
@@ -103,12 +104,16 @@ public class ShoppingCartSystem implements Serializable{
 		products.addProduct(newProduct);
 	}
 	
-	public ProductList getProductsList() {
-		return products;
-	}
-	
-	public void listProduct() {
-		products.displayProducts();
+	/*
+	 * This method is used to copy products from the ProductList to the observableList.
+	 * It then returns the observableList.
+	 */
+	public ObservableList<String> sendObservableLP (ObservableList<String> observableLP) {
+		for(Product product : products) {
+			observableLP.add(product.toString());
+		}
+		
+		return observableLP;
 	}
 	
 	public void loadProduct() {

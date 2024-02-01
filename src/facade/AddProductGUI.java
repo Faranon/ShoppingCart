@@ -47,9 +47,9 @@ public class AddProductGUI {
 		
 		hbox.getChildren().addAll(cancelButton, confirmButton);
 		
-		vbox.getChildren().addAll(productNameL, productNameTF, productBrandL, productBrandTF,
-				productCategoryL, productCategoryTF, productPriceL, productPriceTF, productQuantityL,
-				productQuantityTF, hbox);
+		vbox.getChildren().addAll(productNameL, productNameTF, productBrandL, 
+				productBrandTF, productCategoryL, productCategoryTF, productPriceL,
+				productPriceTF, productQuantityL, productQuantityTF, hbox);
 		
 		Scene scene = new Scene(vbox, 400, 350);
 		addProductStage.setScene(scene);
@@ -64,8 +64,10 @@ public class AddProductGUI {
 	 */
 	private void confirmButtonClicked(ActionEvent event) {
 		if(validateInput()) {
-			ShoppingCartSystem.instance().addProduct(productNameTF.getText(), productBrandTF.getText(), productCategoryTF.getText(),
+			ShoppingCartSystem.instance().addProduct(productNameTF.getText(),
+					productBrandTF.getText(), productCategoryTF.getText(),
 					productPriceTF.getText(), productQuantityTF.getText());
+			
 			clearFields();
 			addProductStage.close();
 		}
@@ -88,11 +90,14 @@ public class AddProductGUI {
 	 * one of them is false, it returns false.
 	 */
 	private boolean validateInput() {
-		boolean checkProductNameInput = displayProductNameTF(ShoppingCartSystem.instance().checkProductNameField(productNameTF.getText()));
-		boolean checkBrandNameInput = displayBrandNameTF(ShoppingCartSystem.instance().checkProductBrandField(productBrandTF.getText()));
-		boolean checkProductCategoryInput = displayProductCategoryTF(ShoppingCartSystem.instance().checkProductCategoryField(productCategoryTF.getText()));
-		boolean checkProductPriceInput = displayPriceTF(ShoppingCartSystem.instance().checkProductPriceField(productPriceTF.getText()));
-		boolean checkProductQuantityInput = displayQuantityTF(ShoppingCartSystem.instance().checkProductQuantityField(productQuantityTF.getText()));
+		boolean checkProductNameInput, checkBrandNameInput, checkProductCategoryInput, 
+			checkProductPriceInput, checkProductQuantityInput;
+		
+		checkProductNameInput = displayProductNameTF(ShoppingCartSystem.instance().checkProductNameField(productNameTF.getText()));
+		checkBrandNameInput = displayBrandNameTF(ShoppingCartSystem.instance().checkProductBrandField(productBrandTF.getText()));
+		checkProductCategoryInput = displayProductCategoryTF(ShoppingCartSystem.instance().checkProductCategoryField(productCategoryTF.getText()));
+		checkProductPriceInput = displayPriceTF(ShoppingCartSystem.instance().checkProductPriceField(productPriceTF.getText()));
+		checkProductQuantityInput = displayQuantityTF(ShoppingCartSystem.instance().checkProductQuantityField(productQuantityTF.getText()));
 		
 		return checkProductNameInput && checkBrandNameInput && checkProductCategoryInput && checkProductPriceInput && checkProductQuantityInput;
 	}
