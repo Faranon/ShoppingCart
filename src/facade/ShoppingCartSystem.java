@@ -195,4 +195,21 @@ public class ShoppingCartSystem implements Serializable{
 		
 		return true;
 	}
+	
+	/*
+	 * This method deletes a product given a string of the product. The method splits the
+	 * string by spaces and takes the PID of the product and uses that to search for the
+	 * product the user wants to delete. Once found, the product is removed from the
+	 * ProductList products.
+	 */
+	public void deleteProduct(String selectedProduct) {
+		String[] splitString = selectedProduct.split(" ");
+		int getPID = Integer.parseInt(splitString[0]);
+		
+		Product productToDelete = products.searchProductByID(getPID);
+		
+		if(productToDelete != null) {
+			products.removeProduct(productToDelete);
+		}
+	}
 }

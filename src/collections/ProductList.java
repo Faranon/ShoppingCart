@@ -47,6 +47,15 @@ public class ProductList implements Iterable<Product>, Serializable{
 		return false;
 	}
 	
+	public Product searchProductByID(int productID) {
+		for(Product product : products) {
+			if(product.getProductID() == productID)
+				return product;
+		}
+		
+		return null;
+	}
+	
 	// Displays all all contents of the products list
 	public void displayProducts() {
 		for(Product product : products) {

@@ -16,21 +16,21 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AddProductGUI {
-	// Text fields for each attribute of product
+	// text fields for each attribute of product
 	private TextField productNameTF = new TextField();
 	private TextField productBrandTF = new TextField();
 	private TextField productCategoryTF = new TextField();
 	private TextField productPriceTF = new TextField();
 	private TextField productQuantityTF = new TextField();
 	
-	// Lebels for each attribute of product
+	// labels for each attribute of product
 	private Label productNameL = new Label("Product Name:");
 	private Label productBrandL = new Label("Product Brand:");
 	private Label productCategoryL = new Label("Product Category:");
 	private Label productPriceL = new Label("Product Price:");
 	private Label productQuantityL = new Label("Product Quantity:");
 	
-	// Stage used to display all text fields and labels
+	// stage used to display all text fields and labels
 	private Stage addProductStage = new Stage();
 	
 	// AddProductGUI constructor that creates the GUI of Add Product
