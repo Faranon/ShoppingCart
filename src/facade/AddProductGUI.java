@@ -93,11 +93,11 @@ public class AddProductGUI {
 		boolean checkProductNameInput, checkBrandNameInput, checkProductCategoryInput, 
 			checkProductPriceInput, checkProductQuantityInput;
 		
-		checkProductNameInput = displayProductNameTF(ShoppingCartSystem.instance().checkProductNameField(productNameTF.getText()));
-		checkBrandNameInput = displayBrandNameTF(ShoppingCartSystem.instance().checkProductBrandField(productBrandTF.getText()));
-		checkProductCategoryInput = displayProductCategoryTF(ShoppingCartSystem.instance().checkProductCategoryField(productCategoryTF.getText()));
-		checkProductPriceInput = displayPriceTF(ShoppingCartSystem.instance().checkProductPriceField(productPriceTF.getText()));
-		checkProductQuantityInput = displayQuantityTF(ShoppingCartSystem.instance().checkProductQuantityField(productQuantityTF.getText()));
+		checkProductNameInput = displayProductNameTF(ShoppingCartSystem.instance().checkProductName(productNameTF.getText()));
+		checkBrandNameInput = displayBrandNameTF(ShoppingCartSystem.instance().checkProductBrand(productBrandTF.getText()));
+		checkProductCategoryInput = displayProductCategoryTF(ShoppingCartSystem.instance().checkProductCategory(productCategoryTF.getText()));
+		checkProductPriceInput = displayPriceTF(ShoppingCartSystem.instance().checkProductPrice(productPriceTF.getText()));
+		checkProductQuantityInput = displayQuantityTF(ShoppingCartSystem.instance().checkProductQuantity(productQuantityTF.getText()));
 		
 		return checkProductNameInput && checkBrandNameInput && checkProductCategoryInput && checkProductPriceInput && checkProductQuantityInput;
 	}

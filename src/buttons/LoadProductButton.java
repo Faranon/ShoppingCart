@@ -21,7 +21,9 @@ public class LoadProductButton extends GUIButton implements EventHandler<ActionE
 		
 		File selectedFile = fileChooser.showOpenDialog(stage);
 		
-		ShoppingCartSystem.instance().readFile(selectedFile);
+		if(selectedFile != null) {
+			ShoppingCartSystem.instance().readFile(selectedFile);
+		}
 		
 		//stage.show();
 	}

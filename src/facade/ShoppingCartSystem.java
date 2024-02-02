@@ -51,28 +51,28 @@ public class ShoppingCartSystem implements Serializable{
 	 * The checkProduct methods are used to check for valid user input from the text
 	 * fields in the AddProductGUI in order to properly create a product.
 	 */
-	public boolean checkProductNameField(String productName) {
+	public boolean checkProductName(String productName) {
 		if(productName.isEmpty())
 			return false;
 		else
 			return true;
 	}
 	
-	public boolean checkProductBrandField(String productBrand) {
+	public boolean checkProductBrand(String productBrand) {
 		if(productBrand.isEmpty())
 			return false;
 		else
 			return true;
 	}
 	
-	public boolean checkProductCategoryField(String productCategory) {
+	public boolean checkProductCategory(String productCategory) {
 		if(productCategory.isEmpty())
 			return false;
 		else
 			return true;
 	}
 	
-	public boolean checkProductPriceField(String productPrice) {
+	public boolean checkProductPrice(String productPrice) {
 		try {
 			Double.parseDouble(productPrice);
 			return true;
@@ -81,7 +81,7 @@ public class ShoppingCartSystem implements Serializable{
 		}
 	}
 	
-	public boolean checkProductQuantityField(String productQuantity) {
+	public boolean checkProductQuantity(String productQuantity) {
 		try {
 			Integer.parseInt(productQuantity);
 			return true;
@@ -120,16 +120,79 @@ public class ShoppingCartSystem implements Serializable{
 		return observableLP;
 	}
 	
+	/*
+	 * This method reads a file that lists a bunch of products that the user wants to be
+	 * added to the system. It uses a buffered reader to read the file and splits the
+	 * line of string by ",". A boolean is then used to call a method to verify if each
+	 * token is a valid input from the string. If it is, the product is added. Otherwise
+	 * the system lets the user know which products were incorrect.
+	 */
 	public void readFile(File file) {
 		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
+            
+            // reads the file as long as it isn't null
             while ((line = reader.readLine()) != null) {
-                // Process each line (assuming it contains product information)
-                System.out.println("Read line: " + line);
-                // Parse the line and create Product objects if needed
+            	
+            	// splits the line into tokens by ","
+            	String[] tokens = line.split(",");
+            	
+            	// calls a method called validateFileInput to check each token
+            	boolean isProductValid = validateFileInput(tokens);
+            	
+            	// if isProductValid is true, it can add the product
+            	if(isProductValid) {
+            		addProduct(tokens[0].trim(), tokens[1].trim(), tokens[2].trim(), 
+            				tokens[3].trim(), tokens[4].trim());
+            	} else {
+            		
+            		// lets the user know which products failed to be added
+            		System.out.print("failed to add product: ");
+            		
+            		for(String token : tokens) {
+            			System.out.print(token.trim() + " ");
+            		}
+            		
+            		System.out.println();
+            	}
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+	}
+	
+	/*
+	 * This method is used to validate input from a file. It takes a string of tokens and
+	 * checks each one. If any token is found to be false, it'll return false right away.
+	 */
+	private boolean validateFileInput(String[] tokens) {
+		boolean checkPName, checkPBrand, checkPCategory, checkPPrice, checkPQuantity;
+		
+		checkPName = checkProductName(tokens[0].trim());
+		if(!checkPName) {
+			return checkPName;
+		}
+		
+		checkPBrand = checkProductBrand(tokens[1].trim());
+		if(!checkPBrand) {
+			return checkPBrand;
+		}
+		
+		checkPCategory = checkProductCategory(tokens[2].trim());
+		if(!checkPCategory) {
+			return checkPCategory;
+		}
+		
+		checkPPrice = checkProductPrice(tokens[3].trim());
+		if(!checkPPrice) {
+			return checkPPrice;
+		}
+		
+		checkPQuantity = checkProductQuantity(tokens[4].trim());
+		if(!checkPQuantity) {
+			return checkPQuantity;
+		}
+		
+		return true;
 	}
 }
