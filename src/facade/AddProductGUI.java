@@ -33,8 +33,11 @@ public class AddProductGUI {
 	// stage used to display all text fields and labels
 	private Stage addProductStage = new Stage();
 	
-	// AddProductGUI constructor that creates the GUI of Add Product
-	public AddProductGUI() {
+	// AddProductGUI constructor
+	public AddProductGUI() {}
+	
+	// this method creates the GUI of addProductGUI
+	public void startAddProductGUI() {
 		Button cancelButton = new Button("Cancel");
 		Button confirmButton = new Button("Confirm");
 		
