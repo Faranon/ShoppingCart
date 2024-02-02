@@ -27,7 +27,7 @@ public class InitializationGUI extends Application {
 		
 		addProductButton = new AddProductButton("Add Product");
 		loadProductButton = new LoadProductButton("Load Product File");
-		editProductButton = new EditProductButton("Edit Product");
+		editProductButton = new EditProductButton("Edit Product", listViewProducts);
 		deleteProductButton = new DeleteProductButton("Delete Product", listViewProducts);
 		listProductButton = new ListProductButton("List Product", listViewProducts);
 		

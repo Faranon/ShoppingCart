@@ -45,6 +45,32 @@ public class ShoppingCartSystem implements Serializable{
 	 */
 	public void openAddProductGUI() {
 		AddProductGUI addProductGUI = new AddProductGUI();
+		addProductGUI.startAddProductGUI();
+	}
+	
+	/*
+	 * This method opens up the editProductGUI and fills in the product to be edited in the text fields.
+	 * It starts by searching for the product that is to be edited by its ID. Then creates a bunch of string
+	 * variables for each attribute of product except the product ID. Then it sends it to the EditProductGUI
+	 * and fills in the correct text fields.
+	 */
+	public void openEditProductGUI(String selectedProduct) {
+		// finds the selected product using the product ID
+		String[] splitString = selectedProduct.split(" ");
+		int getPID = Integer.parseInt(splitString[0]);
+		Product productToBeEdit = searchProductById(getPID);
+		
+		String pName, pBrand, pCategory, pPrice, pQuantity;
+		
+		int pID = productToBeEdit.getProductID();
+		pName = productToBeEdit.getProductName();
+		pBrand = productToBeEdit.getProductBrand();
+		pCategory = productToBeEdit.getProductCategory();
+		pPrice = Double.toString(productToBeEdit.getProductPrice());
+		pQuantity = Integer.toString(productToBeEdit.getProductQuantity());
+		
+		EditProductGUI editProductGUI = new EditProductGUI();
+		editProductGUI.startEditProductGUI(pID, pName, pBrand, pCategory, pPrice, pQuantity);
 	}
 	
 	/*
@@ -95,17 +121,30 @@ public class ShoppingCartSystem implements Serializable{
 	 * The productPrice and productQuantity both get casted into a double and int. The
 	 * product is then created and added to the products list.
 	 */
-	public void addProduct(String productName, String productBrand, String productCategory,
-			String productPrice, String productQuantity) {
+	public void addProduct(String pName, String pBrand, String pCategory, String pPrice, String pQuantity) {
 		
 		// converts string productPrice and productQuantity to a double and int
-		double convertedProductPrice = Double.parseDouble(productPrice);
-		int convertedProductQuantity = Integer.parseInt(productQuantity);
+		double convertedPPrice = Double.parseDouble(pPrice);
+		int convertedPQuantity = Integer.parseInt(pQuantity);
 		
-		Product newProduct = new Product(productName, productBrand, productCategory,
-				convertedProductPrice, convertedProductQuantity);
+		Product newProduct = new Product(pName, pBrand, pCategory,
+				convertedPPrice, convertedPQuantity);
 		
 		products.addProduct(newProduct);
+	}
+	
+	public void editProduct(int pID, String pName, String pBrand, String pCategory, String pPrice, String pQuantity) {
+		Product productToEdit = searchProductById(pID);
+		
+		// converts string productPrice and productQuantity to a double and int
+		double convertedPPrice = Double.parseDouble(pPrice);
+		int convertedPQuantity = Integer.parseInt(pQuantity);
+		
+		productToEdit.setProductName(pName);
+		productToEdit.setProductBrand(pBrand);
+		productToEdit.setProductCategory(pCategory);
+		productToEdit.setProductPrice(convertedPPrice);
+		productToEdit.setProductQuantity(convertedPQuantity);
 	}
 	
 	/*
@@ -206,10 +245,16 @@ public class ShoppingCartSystem implements Serializable{
 		String[] splitString = selectedProduct.split(" ");
 		int getPID = Integer.parseInt(splitString[0]);
 		
-		Product productToDelete = products.searchProductByID(getPID);
+		Product productToDelete = searchProductById(getPID);
 		
 		if(productToDelete != null) {
 			products.removeProduct(productToDelete);
 		}
+	}
+	
+	public Product searchProductById(int getPID) {
+		Product searchedProduct = products.searchProductByID(getPID);
+		
+		return searchedProduct;
 	}
 }

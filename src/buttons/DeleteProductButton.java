@@ -7,6 +7,7 @@ import javafx.scene.control.ListView;
 
 public class DeleteProductButton extends GUIButton implements EventHandler<ActionEvent>{
 	private ListView<String> listViewProducts;
+	
 	public DeleteProductButton(String buttonName, ListView<String> listViewProducts) {
 		super(buttonName);
 		
