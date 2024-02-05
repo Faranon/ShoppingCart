@@ -151,7 +151,7 @@ public class AddProductGUI {
 	private boolean displayPriceTF(boolean validateProductPrice) {
 		if(!validateProductPrice) {
 			productPriceTF.setStyle("-fx-border-color: red;");
-			productPriceL.setText("Product Price: INVALID, MAKE SURE PRICE IS NUMERICAL!");
+			productPriceL.setText("Product Price: INVALID, MAKE SURE PRICE IS NUMERICAL AND POSITIVE!");
 			return false;
 		} else {
 			productPriceTF.setStyle("-fx-border-color: none;");
@@ -163,7 +163,7 @@ public class AddProductGUI {
 	private boolean displayQuantityTF(boolean validateProductQuantity) {
 		if(!validateProductQuantity) {
 			productQuantityTF.setStyle("-fx-border-color: red;");
-			productQuantityL.setText("Product Quantity: INVALID, HAS TO BE A WHOLE NUMBER!");
+			productQuantityL.setText("Product Quantity: INVALID, HAS TO BE A WHOLE POSITIVE NUMBER!");
 			return false;
 		} else {
 			productQuantityTF.setStyle("-fx-border-color: none;");

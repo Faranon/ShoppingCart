@@ -100,7 +100,9 @@ public class ShoppingCartSystem implements Serializable{
 	
 	public boolean checkProductPrice(String productPrice) {
 		try {
-			Double.parseDouble(productPrice);
+			if(Double.parseDouble(productPrice) <= 0) {
+				return false;
+			}
 			return true;
 		} catch (NumberFormatException e) {
 			return false;
@@ -109,7 +111,9 @@ public class ShoppingCartSystem implements Serializable{
 	
 	public boolean checkProductQuantity(String productQuantity) {
 		try {
-			Integer.parseInt(productQuantity);
+			if (Integer.parseInt(productQuantity) <= 0) {
+				return false;
+			}
 			return true;
 		} catch (NumberFormatException e) {
 			return false;
@@ -121,7 +125,8 @@ public class ShoppingCartSystem implements Serializable{
 	 * The productPrice and productQuantity both get casted into a double and int. The
 	 * product is then created and added to the products list.
 	 */
-	public void addProduct(String pName, String pBrand, String pCategory, String pPrice, String pQuantity) {
+	public void addProduct(String pName, String pBrand, String pCategory, String pPrice,
+			String pQuantity) {
 		
 		// converts string productPrice and productQuantity to a double and int
 		double convertedPPrice = Double.parseDouble(pPrice);
@@ -133,7 +138,8 @@ public class ShoppingCartSystem implements Serializable{
 		products.addProduct(newProduct);
 	}
 	
-	public void editProduct(int pID, String pName, String pBrand, String pCategory, String pPrice, String pQuantity) {
+	public void editProduct(int pID, String pName, String pBrand, String pCategory,
+			String pPrice, String pQuantity) {
 		Product productToEdit = searchProductById(pID);
 		
 		// converts string productPrice and productQuantity to a double and int
@@ -252,6 +258,10 @@ public class ShoppingCartSystem implements Serializable{
 		}
 	}
 	
+	/*
+	 * This method searches products by their IDs using the searchProductByID method inside the
+	 * ProductList class and returns the product with the associated ID.
+	 */
 	public Product searchProductById(int getPID) {
 		Product searchedProduct = products.searchProductByID(getPID);
 		

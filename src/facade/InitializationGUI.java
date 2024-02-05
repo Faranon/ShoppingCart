@@ -49,13 +49,13 @@ public class InitializationGUI extends Application {
 		editProductButton.disableProperty().bind(listViewProducts.getSelectionModel().selectedItemProperty().isNull());
 		deleteProductButton.disableProperty().bind(listViewProducts.getSelectionModel().selectedItemProperty().isNull());
 		
-		Scene scene = new Scene(hListView, 500, 300);
+		listViewProducts.setPrefSize(390, 50);
+		Scene scene = new Scene(hListView, 600, 300);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 	
 	public static void main(String[] args) {
 		launch(args);
-
 	}  
 }
