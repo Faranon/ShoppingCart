@@ -6,6 +6,7 @@ import buttons.EditProductButton;
 import buttons.GUIButton;
 import buttons.ListProductButton;
 import buttons.LoadProductButton;
+import buttons.StartButton;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -16,7 +17,7 @@ import javafx.scene.layout.VBox;
 
 public class InitializationGUI extends Application {
 	private GUIButton addProductButton, loadProductButton, editProductButton,
-		deleteProductButton, listProductButton;
+		deleteProductButton, listProductButton, startButton;
 	
 	private ListView<String> listViewProducts;
 	
@@ -30,6 +31,7 @@ public class InitializationGUI extends Application {
 		editProductButton = new EditProductButton("Edit Product", listViewProducts);
 		deleteProductButton = new DeleteProductButton("Delete Product", listViewProducts);
 		listProductButton = new ListProductButton("List Product", listViewProducts);
+		startButton = new StartButton("Start", primaryStage);
 		
 		VBox vButtonBox = new VBox(10);
 		HBox hListView = new HBox(5);
@@ -40,7 +42,7 @@ public class InitializationGUI extends Application {
 		hAddAndLoadButton.getChildren().addAll(addProductButton, loadProductButton);
 		hEditAndDeleteButton.getChildren().addAll(editProductButton, deleteProductButton);
 		vButtonBox.getChildren().addAll(hAddAndLoadButton, hEditAndDeleteButton, 
-				listProductButton);
+				listProductButton, startButton);
 		
 		// adds the vButtonBox and listView to the hBox  
 		hListView.getChildren().addAll(vButtonBox, listViewProducts);

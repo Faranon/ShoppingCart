@@ -13,6 +13,7 @@ import java.io.Serializable;
 import collections.ProductList;
 import entities.Product;
 import javafx.collections.ObservableList;
+import javafx.stage.Stage;
 
 public class ShoppingCartSystem implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -71,6 +72,15 @@ public class ShoppingCartSystem implements Serializable{
 		
 		EditProductGUI editProductGUI = new EditProductGUI();
 		editProductGUI.startEditProductGUI(pID, pName, pBrand, pCategory, pPrice, pQuantity);
+	}
+	
+	/*
+	 * This method starts up the shopping cart GUI and uses the products created to mimic an actual
+	 * shopping cart system.
+	 */
+	public void startShoppingCartGUI(Stage primaryStage) {
+		ShoppingCartGUI shoppingCartGUI = new ShoppingCartGUI(primaryStage);
+		shoppingCartGUI.startShoppingCartGUI();
 	}
 	
 	/*
