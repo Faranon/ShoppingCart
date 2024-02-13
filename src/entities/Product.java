@@ -82,7 +82,7 @@ public class Product implements Serializable {
 	// toString
 	@Override
 	public String toString() {
-		return productID + " " + productName + " " + brand + " " + category + 
-				" " + price + " " + quantity;
+		return productID + " | " + productName + " | " + brand + " | " + category + 
+				" | " + price + " | " + quantity;
 	}
 }

@@ -30,12 +30,8 @@ public class EditProductGUI {
 	private int pID;
 	
 	// AddProductGUI constructor
-	public EditProductGUI() {}
-	
-	// this method creates the GUI of editProductGUI
-	public void startEditProductGUI(int pID,String pName, String pBrand, String pCategory, 
+	public EditProductGUI(int pID,String pName, String pBrand, String pCategory, 
 			String pPrice, String pQuantity) {
-		
 		productNameTF.setText(pName);
 		productBrandTF.setText(pBrand);
 		productCategoryTF.setText(pCategory);
@@ -60,6 +56,10 @@ public class EditProductGUI {
 		
 		Scene scene = new Scene(vbox, 400, 350);
 		addProductStage.setScene(scene);
+	}
+	
+	// this method creates the GUI of editProductGUI
+	public void showEditProductGUI() {
 		addProductStage.show();
 	}
 	
@@ -75,7 +75,6 @@ public class EditProductGUI {
 					productBrandTF.getText(), productCategoryTF.getText(),
 					productPriceTF.getText(), productQuantityTF.getText());
 			
-			clearFields();
 			addProductStage.close();
 		}
 	}
@@ -85,7 +84,6 @@ public class EditProductGUI {
 	 * AddProductGUI and clears the text fields.
 	 */
 	private void cancelButtonClicked(ActionEvent event) {
-		clearFields();
 		addProductStage.close();
 	}
 	
@@ -174,14 +172,5 @@ public class EditProductGUI {
 			productQuantityL.setText("Product Quantity:");
 			return true;
 		}
-	}
-	
-	// Used to clear the text fields
-	private void clearFields() {
-		productNameTF.clear();
-		productBrandTF.clear();
-		productCategoryTF.clear();
-		productPriceTF.clear();
-		productQuantityTF.clear();
 	}
 }

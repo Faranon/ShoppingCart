@@ -46,7 +46,7 @@ public class ShoppingCartSystem implements Serializable{
 	 */
 	public void openAddProductGUI() {
 		AddProductGUI addProductGUI = new AddProductGUI();
-		addProductGUI.startAddProductGUI();
+		addProductGUI.showAddProductGUI();
 	}
 	
 	/*
@@ -70,8 +70,9 @@ public class ShoppingCartSystem implements Serializable{
 		pPrice = Double.toString(productToBeEdit.getProductPrice());
 		pQuantity = Integer.toString(productToBeEdit.getProductQuantity());
 		
-		EditProductGUI editProductGUI = new EditProductGUI();
-		editProductGUI.startEditProductGUI(pID, pName, pBrand, pCategory, pPrice, pQuantity);
+		EditProductGUI editProductGUI = new EditProductGUI(pID, pName, pBrand, pCategory, pPrice,
+				pQuantity);
+		editProductGUI.showEditProductGUI();
 	}
 	
 	/*
@@ -80,7 +81,7 @@ public class ShoppingCartSystem implements Serializable{
 	 */
 	public void startShoppingCartGUI(Stage primaryStage) {
 		ShoppingCartGUI shoppingCartGUI = new ShoppingCartGUI(primaryStage);
-		shoppingCartGUI.startShoppingCartGUI();
+		shoppingCartGUI.showShoppingCartGUI();
 	}
 	
 	/*
@@ -269,12 +270,52 @@ public class ShoppingCartSystem implements Serializable{
 	}
 	
 	/*
-	 * This method searches products by their IDs using the searchProductByID method inside the
-	 * ProductList class and returns the product with the associated ID.
+	 * This method searches products by their IDs using the searchProductByID method. If the product exits
+	 * it returns the product. If not, it returns null.
 	 */
 	public Product searchProductById(int getPID) {
-		Product searchedProduct = products.searchProductByID(getPID);
+		for(Product product : products) {
+			if(product.getProductID() == getPID)
+				return product;
+		}
 		
-		return searchedProduct;
+		return null;
+	}
+	
+	/*
+	 * These methods searches for a product depending on which comboBox the user selects. It uses the
+	 * ObservableList searchedOP to add whatever products contains the string. Note that these methods
+	 * ignore capitalization by converting both the get...() method and string to lower case letters.
+	 * The user does not need to spell the searched product name exactly.
+	 */
+	public ObservableList<String> searchProductByName(String pName, ObservableList<String> searchedOP) {
+		
+		for(Product product : products) {
+			if(product.getProductName().toLowerCase().contains(pName.toLowerCase()))
+				searchedOP.add(product.toString());
+		}
+		
+		return searchedOP;
+	}
+	
+	public ObservableList<String> searchProductByBrand(String pBrand, ObservableList<String> searchedOP) {
+			
+			for(Product product : products) {
+				if(product.getProductBrand().toLowerCase().contains(pBrand.toLowerCase()))
+					searchedOP.add(product.toString());
+		}
+			
+			return searchedOP;
+	}
+	
+	public ObservableList<String> searchProductByCategory(String pCategory,
+			ObservableList<String> searchedOP) {
+		
+		for(Product product : products) {
+			if(product.getProductCategory().toLowerCase().contains(pCategory.toLowerCase()))
+				searchedOP.add(product.toString());
+		}
+		
+		return searchedOP;
 	}
 }

@@ -34,10 +34,7 @@ public class AddProductGUI {
 	private Stage addProductStage = new Stage();
 	
 	// AddProductGUI constructor
-	public AddProductGUI() {}
-	
-	// this method creates the GUI of addProductGUI
-	public void startAddProductGUI() {
+	public AddProductGUI() {
 		Button cancelButton = new Button("Cancel");
 		Button confirmButton = new Button("Confirm");
 		
@@ -56,6 +53,10 @@ public class AddProductGUI {
 		
 		Scene scene = new Scene(vbox, 400, 350);
 		addProductStage.setScene(scene);
+	}
+	
+	// this method creates the GUI of addProductGUI
+	public void showAddProductGUI() {
 		addProductStage.show();
 	}
 	

@@ -10,6 +10,7 @@ import buttons.StartButton;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -24,7 +25,7 @@ public class InitializationGUI extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Initialization");
-		listViewProducts = new ListView<>();
+		listViewProducts = new ListView<String>();
 		
 		addProductButton = new AddProductButton("Add Product");
 		loadProductButton = new LoadProductButton("Load Product File");
@@ -51,8 +52,9 @@ public class InitializationGUI extends Application {
 		editProductButton.disableProperty().bind(listViewProducts.getSelectionModel().selectedItemProperty().isNull());
 		deleteProductButton.disableProperty().bind(listViewProducts.getSelectionModel().selectedItemProperty().isNull());
 		
-		listViewProducts.setPrefSize(390, 50);
-		Scene scene = new Scene(hListView, 600, 300);
+		listViewProducts.setPrefSize(790, 50);
+		listViewProducts.setPlaceholder(new Label("Currently empty"));
+		Scene scene = new Scene(hListView, 1000, 500);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
