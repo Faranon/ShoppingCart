@@ -24,7 +24,7 @@ public class ShoppingCartGUI {
 	private TextField searchBarTF = new TextField();
 	private Label totalL = new Label("Total: 0.00");
 	
-	private GUIButton searchButton, addButton, deleteButton, checkoutButton;
+	private GUIButton searchButton, addButton, deleteButton, checkoutButton, depositButton, withdrawButton;
 	private ComboBox<String> comboBox;
 	
 	private ListView<String> listViewProducts, listViewShoppingCart;
