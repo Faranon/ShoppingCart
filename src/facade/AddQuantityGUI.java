@@ -17,10 +17,14 @@ public class AddQuantityGUI {
 	
 	private String selectedProduct;
 	private ObservableList<String> observableShoppingCart;
+	private Label totalL;
 	
-	public AddQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart) {
+	public AddQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart,
+			Label totatL) {
+		
 		this.selectedProduct = selectedProduct;
 		this.observableShoppingCart = observableShoppingCart;
+		this.totalL = totatL;
 		
 		Button cancelButton = new Button("Cancel");
 		Button confirmButton = new Button("Confirm");
@@ -50,15 +54,22 @@ public class AddQuantityGUI {
 		int productCap = Integer.parseInt(splitProduct[5]);
 		boolean checkQuantityInput, checkOverCap;
 		
-		checkQuantityInput = displayQuantityTF(ShoppingCartSystem.instance().validateQuantity(productCap, quantityTF.getText()));
+		checkQuantityInput = displayQuantityTF(ShoppingCartSystem.instance().validateQuantity(productCap,
+				quantityTF.getText()));
 		
 		if(checkQuantityInput) {
 			String quantityInput = quantityTF.getText();
 			int convertQuantity = Integer.parseInt(quantityInput);
 			
-			checkOverCap = displayQuantityTF(ShoppingCartSystem.instance().addToCart(splitProduct, observableShoppingCart, convertQuantity, productCap));
+			checkOverCap = displayQuantityTF(ShoppingCartSystem.instance().addToCart(splitProduct,
+					observableShoppingCart, convertQuantity, productCap));
 			
 			if(checkOverCap) {
+				String totalCartPrice;
+				totalCartPrice = ShoppingCartSystem.instance().getCartTotalPrice(observableShoppingCart);
+				
+				totalL.setText("Total: " + totalCartPrice);
+				
 				addQuantityStage.close();
 			}
 		}

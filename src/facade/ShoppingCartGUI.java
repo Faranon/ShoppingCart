@@ -54,7 +54,7 @@ public class ShoppingCartGUI {
 		
         // buttons
         searchButton = new SearchButton("Search", searchBarTF, comboBox, listViewProducts);
-        addButton = new AddButton("Add", listViewProducts, observableShoppingCart);
+        addButton = new AddButton("Add", listViewProducts, observableShoppingCart, totalL);
         
         // disable buttons
         addButton.disableProperty().bind(listViewProducts.getSelectionModel().selectedItemProperty().isNull());
@@ -79,7 +79,7 @@ public class ShoppingCartGUI {
         stackPaneR.getChildren().addAll(cartL);
         
         hBoxR.getChildren().addAll();
-        vBoxR.getChildren().addAll(stackPaneR, listViewShoppingCart, hBoxR);
+        vBoxR.getChildren().addAll(stackPaneR, listViewShoppingCart, hBoxR, totalL);
         
         splitPane.getItems().addAll(vBoxL, vBoxR);
         

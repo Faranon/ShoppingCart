@@ -13,6 +13,7 @@ import java.io.Serializable;
 import collections.ProductList;
 import entities.Product;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
@@ -77,8 +78,9 @@ public class ShoppingCartSystem implements Serializable{
 		editProductGUI.showEditProductGUI();
 	}
 	
-	public void openAddQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart) {
-		AddQuantityGUI addQuantityGUI = new AddQuantityGUI(selectedProduct, observableShoppingCart);
+	public void openAddQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart,
+			Label totatL) {
+		AddQuantityGUI addQuantityGUI = new AddQuantityGUI(selectedProduct, observableShoppingCart, totatL);
 		addQuantityGUI.showAddProductGUI();
 	}
 	
@@ -369,7 +371,7 @@ public class ShoppingCartSystem implements Serializable{
 		
 		// if cart is empty, add it to the cart
 		if(observableShoppingCart.isEmpty()) {
-			total = getTotalPrice(total, splitProduct, quantityInput);
+			total = getProductTotalPrice(total, splitProduct, quantityInput);
 			
 			String combinedProduct = stringConversionsAddingToCart(total, splitProduct, quantityInput);
 			
@@ -405,7 +407,7 @@ public class ShoppingCartSystem implements Serializable{
 				
 				// check if the quantityInput exceeds the productCap
 				if(quantityInput <= productCap) {
-					total = getTotalPrice(total, splitProduct, quantityInput);
+					total = getProductTotalPrice(total, splitProduct, quantityInput);
 					
 					String combinedProduct = stringConversionsAddingToCart(total, splitProduct, quantityInput);
 					
@@ -420,7 +422,7 @@ public class ShoppingCartSystem implements Serializable{
 		
 		// if the product is not in the cart, check if the quantityInput is greater than the productCap
 		if(quantityInput <= productCap) {
-			total = getTotalPrice(total, splitProduct, quantityInput);
+			total = getProductTotalPrice(total, splitProduct, quantityInput);
 			
 			String combinedProduct = stringConversionsAddingToCart(total, splitProduct, quantityInput);
 			
@@ -435,7 +437,7 @@ public class ShoppingCartSystem implements Serializable{
 	 * This is a private method that gets called in the addToCart() and checkProductInCartAndCapped(). It 
 	 * is used to get the total price of a product by multiplying it with its quantity. Returns the total.
 	 */
-	private double getTotalPrice(double total, String[] splitProduct, int quantityInput) {
+	private double getProductTotalPrice(double total, String[] splitProduct, int quantityInput) {
 		
 		// price of the product * by the quantity
 		total = Double.parseDouble(splitProduct[4].substring(1)) * quantityInput;
@@ -456,5 +458,33 @@ public class ShoppingCartSystem implements Serializable{
 		String joinString = String.join(" | ", splitProduct);
 		
 		return joinString;
+	}
+	
+	/*
+	 * This method gets the total cost of all products in the cart. It takes the observableShoppingCart
+	 * which contains all the products currently in the cart and adds up the total of all products.
+	 */
+	public String getCartTotalPrice(ObservableList<String> observableShoppingCart) {
+		double total = 0;
+		
+		// iterates through the observableShoppingCart, the string product gets all the product info
+		for(String product : observableShoppingCart) {
+			
+			// split the product info into tokens
+			String[] splitP = product.split(" \\| ");
+			
+			// splitP[0] contains the pID
+			int pID = Integer.parseInt(splitP[0]);
+			
+			// find the product associated with the pID and get the price of the product
+			Product searchProduct = searchProductById(pID);
+			Double priceOfProduct = searchProduct.getProductPrice();
+			
+			total = total + priceOfProduct * Double.parseDouble(splitP[5]);
+		}
+		
+		String totalCartPrice = String.format("$%.2f", total);
+		
+		return totalCartPrice;
 	}
 }
