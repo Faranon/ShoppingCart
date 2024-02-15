@@ -17,11 +17,11 @@ import javafx.stage.Stage;
 public class ShoppingCartGUI {
 	private Stage primaryStage;
 	private TextField searchBarTF = new TextField();
-	private GUIButton searchButton;
+	private GUIButton searchButton, addButton, deleteButton, checkoutButton;
 	private ComboBox<String> comboBox;
 	
-	private ListView<String> listViewProducts;
-	private ObservableList<String> observableProducts;
+	private ListView<String> listViewProducts, listViewShoppingCart;
+	private ObservableList<String> observableProducts, observableShoppingCart;
 	
 	ShoppingCartGUI(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -40,16 +40,20 @@ public class ShoppingCartGUI {
 		
         searchButton = new SearchButton("Search Button", searchBarTF, comboBox, listViewProducts);
         
-        StackPane leftStackPane = new StackPane();
-        StackPane rightStackPane = new StackPane();
         SplitPane splitPane = new SplitPane();
-        HBox hBox = new HBox();
-        VBox vBox = new VBox();
         
-        hBox.getChildren().addAll(searchBarTF, comboBox, searchButton);
-        vBox.getChildren().addAll(hBox, listViewProducts);
-        leftStackPane.getChildren().add(vBox);
-        splitPane.getItems().addAll(leftStackPane, rightStackPane);
+        // left side of split pane
+        HBox hBoxL = new HBox();
+        VBox vBoxL = new VBox();
+        hBoxL.getChildren().addAll(searchBarTF, comboBox, searchButton);
+        vBoxL.getChildren().addAll(hBoxL, listViewProducts);
+        
+        // right side of split pane
+        HBox hBoxR = new HBox();
+        VBox vBoxR = new VBox();
+        
+        
+        splitPane.getItems().addAll(vBoxL, vBoxR);
         
         primaryStage.setScene(new Scene(splitPane, 1000, 500));
 	}

@@ -20,4 +20,31 @@
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/buttons/ListProductButton.java</name>
+			<type>1</type>
+			<location>C:/Users/Ethan/eclipse-workspace/ShoppingCart/src/buttons/ListProductButton.java</location>
+		</link>
+		<link>
+			<name>src/buttons/SearchButton.java</name>
+			<type>1</type>
+			<location>C:/Users/Ethan/eclipse-workspace/ShoppingCart/src/buttons/SearchButton.java</location>
+		</link>
+		<link>
+			<name>src/buttons/StartButton.java</name>
+			<type>1</type>
+			<location>C:/Users/Ethan/eclipse-workspace/ShoppingCart/src/buttons/StartButton.java</location>
+		</link>
+		<link>
+			<name>src/facade/EditProductGUI.java</name>
+			<type>1</type>
+			<location>C:/Users/Ethan/eclipse-workspace/ShoppingCart/src/facade/EditProductGUI.java</location>
+		</link>
+		<link>
+			<name>src/facade/ShoppingCartGUI.java</name>
+			<type>1</type>
+			<location>C:/Users/Ethan/eclipse-workspace/ShoppingCart/src/facade/ShoppingCartGUI.java</location>
+		</link>
+	</linkedResources>
 </projectDescription>

@@ -27,11 +27,11 @@ public class InitializationGUI extends Application {
 		primaryStage.setTitle("Initialization");
 		listViewProducts = new ListView<String>();
 		
-		addProductButton = new AddProductButton("Add Product");
-		loadProductButton = new LoadProductButton("Load Product File");
+		addProductButton = new AddProductButton("Add Product", listViewProducts);
+		loadProductButton = new LoadProductButton("Load Product File", listViewProducts);
 		editProductButton = new EditProductButton("Edit Product", listViewProducts);
 		deleteProductButton = new DeleteProductButton("Delete Product", listViewProducts);
-		listProductButton = new ListProductButton("List Product", listViewProducts);
+		//listProductButton = new ListProductButton("List Product", listViewProducts);
 		startButton = new StartButton("Start", primaryStage);
 		
 		VBox vButtonBox = new VBox(10);
@@ -43,7 +43,7 @@ public class InitializationGUI extends Application {
 		hAddAndLoadButton.getChildren().addAll(addProductButton, loadProductButton);
 		hEditAndDeleteButton.getChildren().addAll(editProductButton, deleteProductButton);
 		vButtonBox.getChildren().addAll(hAddAndLoadButton, hEditAndDeleteButton, 
-				listProductButton, startButton);
+				startButton);
 		
 		// adds the vButtonBox and listView to the hBox  
 		hListView.getChildren().addAll(vButtonBox, listViewProducts);

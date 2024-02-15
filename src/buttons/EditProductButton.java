@@ -17,6 +17,6 @@ public class EditProductButton extends GUIButton implements EventHandler<ActionE
 	@Override
 	public void handle(ActionEvent arg0) {
 		String selectedProduct = listViewProducts.getSelectionModel().getSelectedItem();
-		ShoppingCartSystem.instance().openEditProductGUI(selectedProduct);
+		ShoppingCartSystem.instance().openEditProductGUI(selectedProduct, listViewProducts);
 	}
 }

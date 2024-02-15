@@ -1,9 +1,12 @@
 package facade;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,13 +28,16 @@ public class EditProductGUI {
 	private Label productQuantityL = new Label("Product Quantity:");
 	
 	// stage used to display all text fields and labels
-	private Stage addProductStage = new Stage();
+	private Stage editProductStage = new Stage();
 	
+	private ListView<String> listViewProducts;
 	private int pID;
 	
 	// AddProductGUI constructor
 	public EditProductGUI(int pID,String pName, String pBrand, String pCategory, 
-			String pPrice, String pQuantity) {
+			String pPrice, String pQuantity, ListView<String> listViewProducts) {
+		this.listViewProducts = listViewProducts;
+		this.pID = pID;
 		productNameTF.setText(pName);
 		productBrandTF.setText(pBrand);
 		productCategoryTF.setText(pCategory);
@@ -55,12 +61,12 @@ public class EditProductGUI {
 				productPriceTF, productQuantityL, productQuantityTF, hbox);
 		
 		Scene scene = new Scene(vbox, 400, 350);
-		addProductStage.setScene(scene);
+		editProductStage.setScene(scene);
 	}
 	
 	// this method creates the GUI of editProductGUI
 	public void showEditProductGUI() {
-		addProductStage.show();
+		editProductStage.show();
 	}
 	
 	/*
@@ -75,7 +81,10 @@ public class EditProductGUI {
 					productBrandTF.getText(), productCategoryTF.getText(),
 					productPriceTF.getText(), productQuantityTF.getText());
 			
-			addProductStage.close();
+			ObservableList<String> observableProducts = FXCollections.observableArrayList();
+			ShoppingCartSystem.instance().sendObservableLP(observableProducts);
+			listViewProducts.setItems(observableProducts);
+			editProductStage.close();
 		}
 	}
 	
@@ -84,7 +93,7 @@ public class EditProductGUI {
 	 * AddProductGUI and clears the text fields.
 	 */
 	private void cancelButtonClicked(ActionEvent event) {
-		addProductStage.close();
+		editProductStage.close();
 	}
 	
 	/*

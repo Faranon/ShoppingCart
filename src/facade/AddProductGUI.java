@@ -6,10 +6,13 @@
  */
 package facade;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,8 +36,12 @@ public class AddProductGUI {
 	// stage used to display all text fields and labels
 	private Stage addProductStage = new Stage();
 	
+	private ListView<String> listViewProducts;
+	
 	// AddProductGUI constructor
-	public AddProductGUI() {
+	public AddProductGUI(ListView<String> listViewProducts) {
+		this.listViewProducts = listViewProducts;
+		
 		Button cancelButton = new Button("Cancel");
 		Button confirmButton = new Button("Confirm");
 		
@@ -72,6 +79,9 @@ public class AddProductGUI {
 					productBrandTF.getText(), productCategoryTF.getText(),
 					productPriceTF.getText(), productQuantityTF.getText());
 			
+			ObservableList<String> observableProducts = FXCollections.observableArrayList();
+			ShoppingCartSystem.instance().sendObservableLP(observableProducts);
+			listViewProducts.setItems(observableProducts);
 			clearFields();
 			addProductStage.close();
 		}

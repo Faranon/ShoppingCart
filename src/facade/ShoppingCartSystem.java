@@ -13,6 +13,7 @@ import java.io.Serializable;
 import collections.ProductList;
 import entities.Product;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 public class ShoppingCartSystem implements Serializable{
@@ -44,8 +45,8 @@ public class ShoppingCartSystem implements Serializable{
 	 * This method gets called from the AddProductButton.java class to create the
 	 * AddProductGUI.java GUI when addProduct button is clicked.
 	 */
-	public void openAddProductGUI() {
-		AddProductGUI addProductGUI = new AddProductGUI();
+	public void openAddProductGUI(ListView<String> listViewProducts) {
+		AddProductGUI addProductGUI = new AddProductGUI(listViewProducts);
 		addProductGUI.showAddProductGUI();
 	}
 	
@@ -55,10 +56,11 @@ public class ShoppingCartSystem implements Serializable{
 	 * variables for each attribute of product except the product ID. Then it sends it to the EditProductGUI
 	 * and fills in the correct text fields.
 	 */
-	public void openEditProductGUI(String selectedProduct) {
+	public void openEditProductGUI(String selectedProduct, ListView<String> listViewProducts) {
 		// finds the selected product using the product ID
 		String[] splitString = selectedProduct.split(" ");
 		int getPID = Integer.parseInt(splitString[0]);
+		
 		Product productToBeEdit = searchProductById(getPID);
 		
 		String pName, pBrand, pCategory, pPrice, pQuantity;
@@ -71,7 +73,7 @@ public class ShoppingCartSystem implements Serializable{
 		pQuantity = Integer.toString(productToBeEdit.getProductQuantity());
 		
 		EditProductGUI editProductGUI = new EditProductGUI(pID, pName, pBrand, pCategory, pPrice,
-				pQuantity);
+				pQuantity, listViewProducts);
 		editProductGUI.showEditProductGUI();
 	}
 	
