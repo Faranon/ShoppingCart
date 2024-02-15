@@ -28,19 +28,6 @@ public class ShoppingCartSystem implements Serializable{
 	}
 	
 	/*
-	 * This method searches products by their IDs using the searchProductByID method. If the product exits
-	 * it returns the product. If not, it returns null.
-	 */
-	private Product searchProductById(int getPID) {
-		for(Product product : products) {
-			if(product.getProductID() == getPID)
-				return product;
-		}
-		
-		return null;
-	}
-	
-	/*
 	 *  Checks if the ShoppingCartSystem has already been initialized. If it hasn't,
 	 *  create a new system, otherwise return itself. This is to ensure that
 	 *  another instance of the ShoppingCartSystem isn't created. Whenever a method is
@@ -186,6 +173,19 @@ public class ShoppingCartSystem implements Serializable{
 	}
 	
 	/*
+	 * This method searches products by their IDs using the searchProductByID method. If the product exits
+	 * it returns the product. If not, it returns null.
+	 */
+	private Product searchProductById(int getPID) {
+		for(Product product : products) {
+			if(product.getProductID() == getPID)
+				return product;
+		}
+		
+		return null;
+	}
+	
+	/*
 	 * This method deletes a product given a string of the product. The method splits the
 	 * string by spaces and takes the PID of the product and uses that to search for the
 	 * product the user wants to delete. Once found, the product is removed from the
@@ -328,6 +328,14 @@ public class ShoppingCartSystem implements Serializable{
 		return searchedOP;
 	}
 	
+	/*
+	 * This method takes the productCap, which is the total quantity of a product, and takes the
+	 * userQInput, which contains the quantity that the user wants. The if statement checks if the
+	 * userQInput is a valid positive integer that is greater than 1. It also checks to see if the 
+	 * userQInput is less than or equal to the productCap. If the userQInput is not a valid integer, then
+	 * it is caught in the catch block returning false. The same is said to be done if the userQInput is
+	 * greater than the productCap.
+	 */
 	public boolean validateQuantity(int productCap, String userQInput) {
 		try {
 			if(Integer.parseInt(userQInput) >= 1 &&
@@ -340,36 +348,68 @@ public class ShoppingCartSystem implements Serializable{
 		}
 	}
 	
+	/*
+	 * This method takes several variables in order to add a product to the user's cart. The splitProduct
+	 * is an array of a string that contains information of the product. The observableList is a string 
+	 * containing the list of products already in the user's cart. The quantityInput is the quantity the
+	 * user wants of the product and the productCap is the total quantity that is available for sell. 
+	 * 
+	 * The if statement checks if the cart is empty. If it is, add the product and quantity to the cart.
+	 * The string[] splitProduct[4] is the position of the price per product. It gets multiplied by the
+	 * quantity. The string[] splitProduct[5] is the position of the quantity in the string and gets
+	 * changed depending on what the quantityInput the user wanted, returns true.
+	 * 
+	 * The if else statement calls a method called checkProductInCartAndCapped which is a boolean method.
+	 * If it is true, it returns true. Otherwise, the method returns false.
+	 */
 	public boolean addToCart(String[] splitProduct, ObservableList<String> observableShoppingCart,
 			int quantityInput, int productCap) {
 		
+		double total = 0;
+		
+		// if cart is empty, add it to the cart
 		if(observableShoppingCart.isEmpty()) {
-			splitProduct[5] = String.valueOf(quantityInput);
-			String combineProduct = String.join(" | ", splitProduct);
-			observableShoppingCart.add(combineProduct);
+			total = getTotalPrice(total, splitProduct, quantityInput);
+			
+			String combinedProduct = stringConversionsAddingToCart(total, splitProduct, quantityInput);
+			
+			observableShoppingCart.add(combinedProduct);
 			return true;
-		} else if(checkProductInCartAndCapped(splitProduct, observableShoppingCart, quantityInput, productCap)) {
+		} else if(checkProductInCartAndCapped(splitProduct, observableShoppingCart,
+				quantityInput, productCap, total)) {
 			return true;
 		}
 		
 		return false;
 	}
 	
-	private boolean checkProductInCartAndCapped(String[] splitProduct, ObservableList<String> observableShoppingCart, 
-			int quantityInput, int productCap) {
+	/*
+	 * This method is a private method that gets called in the addToCart() method. It is used to check if
+	 * the product already exists in the cart and to see if the total quantity in the cart exceeds the
+	 * maximum quantity available. 
+	 */
+	private boolean checkProductInCartAndCapped(String[] splitProduct,
+			ObservableList<String> observableShoppingCart, int quantityInput, int productCap, double total) {
 		
+		// used to track the index position inside the observableShoppingCart
 		int index = 0;
 		
+		// iterates through the cart, splitting the product information into tokens
 		for(String product : observableShoppingCart) {
 			String[] searchedP = product.split(" \\| ");
 			
+			// searchedP[0] and splitProduct[0] are both pIDs that are compared with each other
 			if(searchedP[0].equals(splitProduct[0])) {
+				// if the product is already in the cart, add the quantity together
 				quantityInput = quantityInput + Integer.parseInt(searchedP[5]);
 				
+				// check if the quantityInput exceeds the productCap
 				if(quantityInput <= productCap) {
-					searchedP[5] = String.valueOf(quantityInput);
-					String combineProduct = String.join(" | ", searchedP);
-					observableShoppingCart.set(index, combineProduct);
+					total = getTotalPrice(total, splitProduct, quantityInput);
+					
+					String combinedProduct = stringConversionsAddingToCart(total, splitProduct, quantityInput);
+					
+					observableShoppingCart.set(index, combinedProduct);
 					return true;
 				} else
 					return false;
@@ -378,13 +418,43 @@ public class ShoppingCartSystem implements Serializable{
 			index++;
 		}
 		
+		// if the product is not in the cart, check if the quantityInput is greater than the productCap
 		if(quantityInput <= productCap) {
-			splitProduct[5] = String.valueOf(quantityInput);
-			String combineProduct = String.join(" | ", splitProduct);
-			observableShoppingCart.add(combineProduct);
+			total = getTotalPrice(total, splitProduct, quantityInput);
+			
+			String combinedProduct = stringConversionsAddingToCart(total, splitProduct, quantityInput);
+			
+			observableShoppingCart.add(combinedProduct);
 			return true;
 		}
 		
 		return false;
+	}
+	
+	/*
+	 * This is a private method that gets called in the addToCart() and checkProductInCartAndCapped(). It 
+	 * is used to get the total price of a product by multiplying it with its quantity. Returns the total.
+	 */
+	private double getTotalPrice(double total, String[] splitProduct, int quantityInput) {
+		
+		// price of the product * by the quantity
+		total = Double.parseDouble(splitProduct[4].substring(1)) * quantityInput;
+		
+		return total;
+	}
+	
+	/*
+	 * This is a private method that gets called in the addToCart() and checkProductInCartAndCapped() to
+	 * convert the total and quantity into a string. It also combines the splitProduct string into one and
+	 * returns it.
+	 */
+	private String stringConversionsAddingToCart(double total, String[] splitProduct, int quantityInput) {
+		splitProduct[4] = String.format("$%.2f", total);
+		
+		// converts the quantityInput into a string and then the splitProduct is combined
+		splitProduct[5] = String.valueOf(quantityInput);
+		String joinString = String.join(" | ", splitProduct);
+		
+		return joinString;
 	}
 }

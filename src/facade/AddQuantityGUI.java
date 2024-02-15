@@ -29,6 +29,7 @@ public class AddQuantityGUI {
 		confirmButton.setOnAction(this::confirmButtonClicked);
 		cancelButton.setOnAction(this::cancelButtonClicked);
 		
+		// GUI layout
 		HBox hBoxButton = new HBox();
 		VBox vBox = new VBox();
 		
