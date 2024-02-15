@@ -8,6 +8,8 @@ import buttons.ListProductButton;
 import buttons.LoadProductButton;
 import buttons.StartButton;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -18,20 +20,24 @@ import javafx.scene.layout.VBox;
 
 public class InitializationGUI extends Application {
 	private GUIButton addProductButton, loadProductButton, editProductButton,
-		deleteProductButton, listProductButton, startButton;
+		deleteProductButton, startButton;
 	
 	private ListView<String> listViewProducts;
+	private ObservableList<String> observableProducts;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Initialization");
-		listViewProducts = new ListView<String>();
 		
-		addProductButton = new AddProductButton("Add Product", listViewProducts);
-		loadProductButton = new LoadProductButton("Load Product File", listViewProducts);
+		listViewProducts = new ListView<String>();
+		observableProducts = FXCollections.observableArrayList();
+		listViewProducts.setItems(observableProducts);
+		
+		// Buttons
+		addProductButton = new AddProductButton("Add Product", observableProducts);
+		loadProductButton = new LoadProductButton("Load Product File", observableProducts);
 		editProductButton = new EditProductButton("Edit Product", listViewProducts);
 		deleteProductButton = new DeleteProductButton("Delete Product", listViewProducts);
-		//listProductButton = new ListProductButton("List Product", listViewProducts);
 		startButton = new StartButton("Start", primaryStage);
 		
 		VBox vButtonBox = new VBox(10);

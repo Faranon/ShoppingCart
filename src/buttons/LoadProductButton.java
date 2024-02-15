@@ -3,21 +3,19 @@ package buttons;
 import java.io.File;
 
 import facade.ShoppingCartSystem;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.ListView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class LoadProductButton extends GUIButton implements EventHandler<ActionEvent>{
-	private ListView<String> listViewProducts;
+	private ObservableList<String> observableProducts;
 	
-	public LoadProductButton(String buttonName, ListView<String> listViewProducts) {
+	public LoadProductButton(String buttonName, ObservableList<String> observableProducts) {
 		super(buttonName);
 	
-		this.listViewProducts = listViewProducts;
+		this.observableProducts = observableProducts;
 	}
 	
 	@Override
@@ -29,12 +27,9 @@ public class LoadProductButton extends GUIButton implements EventHandler<ActionE
 		File selectedFile = fileChooser.showOpenDialog(stage);
 		
 		if(selectedFile != null) {
-			ShoppingCartSystem.instance().readFile(selectedFile);
+			ShoppingCartSystem.instance().readFile(selectedFile, observableProducts);
 			
-			ObservableList<String> observableProducts = FXCollections.observableArrayList();
-			ShoppingCartSystem.instance().sendObservableLP(observableProducts);
 			
-			listViewProducts.setItems(observableProducts);
 		}
 	}
 }

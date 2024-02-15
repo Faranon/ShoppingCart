@@ -28,6 +28,19 @@ public class ShoppingCartSystem implements Serializable{
 	}
 	
 	/*
+	 * This method searches products by their IDs using the searchProductByID method. If the product exits
+	 * it returns the product. If not, it returns null.
+	 */
+	private Product searchProductById(int getPID) {
+		for(Product product : products) {
+			if(product.getProductID() == getPID)
+				return product;
+		}
+		
+		return null;
+	}
+	
+	/*
 	 *  Checks if the ShoppingCartSystem has already been initialized. If it hasn't,
 	 *  create a new system, otherwise return itself. This is to ensure that
 	 *  another instance of the ShoppingCartSystem isn't created. Whenever a method is
@@ -45,8 +58,8 @@ public class ShoppingCartSystem implements Serializable{
 	 * This method gets called from the AddProductButton.java class to create the
 	 * AddProductGUI.java GUI when addProduct button is clicked.
 	 */
-	public void openAddProductGUI(ListView<String> listViewProducts) {
-		AddProductGUI addProductGUI = new AddProductGUI(listViewProducts);
+	public void openAddProductGUI(ObservableList<String> observableProducts) {
+		AddProductGUI addProductGUI = new AddProductGUI(observableProducts);
 		addProductGUI.showAddProductGUI();
 	}
 	
@@ -58,7 +71,7 @@ public class ShoppingCartSystem implements Serializable{
 	 */
 	public void openEditProductGUI(String selectedProduct, ListView<String> listViewProducts) {
 		// finds the selected product using the product ID
-		String[] splitString = selectedProduct.split(" ");
+		String[] splitString = selectedProduct.split(" \\| ");
 		int getPID = Integer.parseInt(splitString[0]);
 		
 		Product productToBeEdit = searchProductById(getPID);
@@ -75,6 +88,11 @@ public class ShoppingCartSystem implements Serializable{
 		EditProductGUI editProductGUI = new EditProductGUI(pID, pName, pBrand, pCategory, pPrice,
 				pQuantity, listViewProducts);
 		editProductGUI.showEditProductGUI();
+	}
+	
+	public void openAddQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart) {
+		AddQuantityGUI addQuantityGUI = new AddQuantityGUI(selectedProduct, observableShoppingCart);
+		addQuantityGUI.showAddProductGUI();
 	}
 	
 	/*
@@ -139,7 +157,7 @@ public class ShoppingCartSystem implements Serializable{
 	 * product is then created and added to the products list.
 	 */
 	public void addProduct(String pName, String pBrand, String pCategory, String pPrice,
-			String pQuantity) {
+			String pQuantity, ObservableList<String> observableProducts) {
 		
 		// converts string productPrice and productQuantity to a double and int
 		double convertedPPrice = Double.parseDouble(pPrice);
@@ -149,6 +167,7 @@ public class ShoppingCartSystem implements Serializable{
 				convertedPPrice, convertedPQuantity);
 		
 		products.addProduct(newProduct);
+		observableProducts.add(newProduct.toString());
 	}
 	
 	public void editProduct(int pID, String pName, String pBrand, String pCategory,
@@ -164,6 +183,23 @@ public class ShoppingCartSystem implements Serializable{
 		productToEdit.setProductCategory(pCategory);
 		productToEdit.setProductPrice(convertedPPrice);
 		productToEdit.setProductQuantity(convertedPQuantity);
+	}
+	
+	/*
+	 * This method deletes a product given a string of the product. The method splits the
+	 * string by spaces and takes the PID of the product and uses that to search for the
+	 * product the user wants to delete. Once found, the product is removed from the
+	 * ProductList products.
+	 */
+	public void deleteProduct(String selectedProduct) {
+		String[] splitString = selectedProduct.split(" ");
+		int getPID = Integer.parseInt(splitString[0]);
+		
+		Product productToDelete = searchProductById(getPID);
+		
+		if(productToDelete != null) {
+			products.removeProduct(productToDelete);
+		}
 	}
 	
 	/*
@@ -185,7 +221,7 @@ public class ShoppingCartSystem implements Serializable{
 	 * token is a valid input from the string. If it is, the product is added. Otherwise
 	 * the system lets the user know which products were incorrect.
 	 */
-	public void readFile(File file) {
+	public void readFile(File file, ObservableList<String> observableProducts) {
 		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             
@@ -201,7 +237,7 @@ public class ShoppingCartSystem implements Serializable{
             	// if isProductValid is true, it can add the product
             	if(isProductValid) {
             		addProduct(tokens[0].trim(), tokens[1].trim(), tokens[2].trim(), 
-            				tokens[3].trim(), tokens[4].trim());
+            				tokens[3].trim(), tokens[4].trim(), observableProducts);
             	} else {
             		
             		// lets the user know which products failed to be added
@@ -255,40 +291,11 @@ public class ShoppingCartSystem implements Serializable{
 	}
 	
 	/*
-	 * This method deletes a product given a string of the product. The method splits the
-	 * string by spaces and takes the PID of the product and uses that to search for the
-	 * product the user wants to delete. Once found, the product is removed from the
-	 * ProductList products.
-	 */
-	public void deleteProduct(String selectedProduct) {
-		String[] splitString = selectedProduct.split(" ");
-		int getPID = Integer.parseInt(splitString[0]);
-		
-		Product productToDelete = searchProductById(getPID);
-		
-		if(productToDelete != null) {
-			products.removeProduct(productToDelete);
-		}
-	}
-	
-	/*
-	 * This method searches products by their IDs using the searchProductByID method. If the product exits
-	 * it returns the product. If not, it returns null.
-	 */
-	public Product searchProductById(int getPID) {
-		for(Product product : products) {
-			if(product.getProductID() == getPID)
-				return product;
-		}
-		
-		return null;
-	}
-	
-	/*
 	 * These methods searches for a product depending on which comboBox the user selects. It uses the
 	 * ObservableList searchedOP to add whatever products contains the string. Note that these methods
 	 * ignore capitalization by converting both the get...() method and string to lower case letters.
-	 * The user does not need to spell the searched product name exactly.
+	 * The user does not need to spell the searched product name exactly. The methods return an observable
+	 * list.
 	 */
 	public ObservableList<String> searchProductByName(String pName, ObservableList<String> searchedOP) {
 		
@@ -319,5 +326,65 @@ public class ShoppingCartSystem implements Serializable{
 		}
 		
 		return searchedOP;
+	}
+	
+	public boolean validateQuantity(int productCap, String userQInput) {
+		try {
+			if(Integer.parseInt(userQInput) >= 1 &&
+					Integer.parseInt(userQInput) <= productCap) {
+				return true;
+			}
+			return false;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+	
+	public boolean addToCart(String[] splitProduct, ObservableList<String> observableShoppingCart,
+			int quantityInput, int productCap) {
+		
+		if(observableShoppingCart.isEmpty()) {
+			splitProduct[5] = String.valueOf(quantityInput);
+			String combineProduct = String.join(" | ", splitProduct);
+			observableShoppingCart.add(combineProduct);
+			return true;
+		} else if(checkProductInCartAndCapped(splitProduct, observableShoppingCart, quantityInput, productCap)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private boolean checkProductInCartAndCapped(String[] splitProduct, ObservableList<String> observableShoppingCart, 
+			int quantityInput, int productCap) {
+		
+		int index = 0;
+		
+		for(String product : observableShoppingCart) {
+			String[] searchedP = product.split(" \\| ");
+			
+			if(searchedP[0].equals(splitProduct[0])) {
+				quantityInput = quantityInput + Integer.parseInt(searchedP[5]);
+				
+				if(quantityInput <= productCap) {
+					searchedP[5] = String.valueOf(quantityInput);
+					String combineProduct = String.join(" | ", searchedP);
+					observableShoppingCart.set(index, combineProduct);
+					return true;
+				} else
+					return false;
+			}
+			
+			index++;
+		}
+		
+		if(quantityInput <= productCap) {
+			splitProduct[5] = String.valueOf(quantityInput);
+			String combineProduct = String.join(" | ", splitProduct);
+			observableShoppingCart.add(combineProduct);
+			return true;
+		}
+		
+		return false;
 	}
 }

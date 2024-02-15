@@ -6,13 +6,11 @@
  */
 package facade;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -36,16 +34,16 @@ public class AddProductGUI {
 	// stage used to display all text fields and labels
 	private Stage addProductStage = new Stage();
 	
-	private ListView<String> listViewProducts;
+	private ObservableList<String> observableProducts;
 	
 	// AddProductGUI constructor
-	public AddProductGUI(ListView<String> listViewProducts) {
-		this.listViewProducts = listViewProducts;
+	public AddProductGUI(ObservableList<String> observableProducts) {
+		this.observableProducts = observableProducts;
 		
 		Button cancelButton = new Button("Cancel");
 		Button confirmButton = new Button("Confirm");
 		
-		// actions that are taken when either the cancel or confirm button is clicked
+		// actions taken when either the cancel or confirm button is clicked
 		confirmButton.setOnAction(this::confirmButtonClicked);
 		cancelButton.setOnAction(this::cancelButtonClicked);
 		
@@ -77,11 +75,8 @@ public class AddProductGUI {
 		if(validateInput()) {
 			ShoppingCartSystem.instance().addProduct(productNameTF.getText(),
 					productBrandTF.getText(), productCategoryTF.getText(),
-					productPriceTF.getText(), productQuantityTF.getText());
+					productPriceTF.getText(), productQuantityTF.getText(), observableProducts);
 			
-			ObservableList<String> observableProducts = FXCollections.observableArrayList();
-			ShoppingCartSystem.instance().sendObservableLP(observableProducts);
-			listViewProducts.setItems(observableProducts);
 			clearFields();
 			addProductStage.close();
 		}
@@ -104,16 +99,17 @@ public class AddProductGUI {
 	 * one of them is false, it returns false.
 	 */
 	private boolean validateInput() {
-		boolean checkProductNameInput, checkBrandNameInput, checkProductCategoryInput, 
-			checkProductPriceInput, checkProductQuantityInput;
+		boolean checkProductNameInput, checkBrandInput, checkCategoryInput, checkPriceInput,
+			checkQuantityInput;
 		
 		checkProductNameInput = displayProductNameTF(ShoppingCartSystem.instance().checkProductName(productNameTF.getText()));
-		checkBrandNameInput = displayBrandNameTF(ShoppingCartSystem.instance().checkProductBrand(productBrandTF.getText()));
-		checkProductCategoryInput = displayProductCategoryTF(ShoppingCartSystem.instance().checkProductCategory(productCategoryTF.getText()));
-		checkProductPriceInput = displayPriceTF(ShoppingCartSystem.instance().checkProductPrice(productPriceTF.getText()));
-		checkProductQuantityInput = displayQuantityTF(ShoppingCartSystem.instance().checkProductQuantity(productQuantityTF.getText()));
+		checkBrandInput = displayBrandNameTF(ShoppingCartSystem.instance().checkProductBrand(productBrandTF.getText()));
+		checkCategoryInput = displayProductCategoryTF(ShoppingCartSystem.instance().checkProductCategory(productCategoryTF.getText()));
+		checkPriceInput = displayPriceTF(ShoppingCartSystem.instance().checkProductPrice(productPriceTF.getText()));
+		checkQuantityInput = displayQuantityTF(ShoppingCartSystem.instance().checkProductQuantity(productQuantityTF.getText()));
 		
-		return checkProductNameInput && checkBrandNameInput && checkProductCategoryInput && checkProductPriceInput && checkProductQuantityInput;
+		return checkProductNameInput && checkBrandInput && checkCategoryInput && checkPriceInput
+				&& checkQuantityInput;
 	}
 	
 	/*
@@ -123,8 +119,8 @@ public class AddProductGUI {
 	 * to be put in order for the input to be valid. If true, it removes the warning and
 	 * changes the text field back to white.
 	 */
-	private boolean displayProductNameTF(boolean validateProductName) {
-		if(!validateProductName) {
+	private boolean displayProductNameTF(boolean validatePName) {
+		if(!validatePName) {
 			productNameTF.setStyle("-fx-border-color: red;");
 			productNameL.setText("Product Name: CAN'T BE LEFT EMPTY");
 			return false;
@@ -135,8 +131,8 @@ public class AddProductGUI {
 		}
 	}
 	
-	private boolean displayBrandNameTF(boolean validateProductBrand) {
-		if(!validateProductBrand) {
+	private boolean displayBrandNameTF(boolean validatePBrand) {
+		if(!validatePBrand) {
 			productBrandTF.setStyle("-fx-border-color: red;");
 			productBrandL.setText("Product Brand: CAN'T BE LEFT EMPTY");
 			return false;
@@ -147,8 +143,8 @@ public class AddProductGUI {
 		}
 	}
 	
-	private boolean displayProductCategoryTF(boolean validateProductCategory) {
-		if(!validateProductCategory) {
+	private boolean displayProductCategoryTF(boolean validatePCategory) {
+		if(!validatePCategory) {
 			productCategoryTF.setStyle("-fx-border-color: red;");
 			productCategoryL.setText("Product Category: CAN'T BE LEFT EMPTY");
 			return false;
@@ -159,8 +155,8 @@ public class AddProductGUI {
 		}
 	}
 	
-	private boolean displayPriceTF(boolean validateProductPrice) {
-		if(!validateProductPrice) {
+	private boolean displayPriceTF(boolean validatePPrice) {
+		if(!validatePPrice) {
 			productPriceTF.setStyle("-fx-border-color: red;");
 			productPriceL.setText("Product Price: INVALID, MAKE SURE PRICE IS NUMERICAL AND POSITIVE!");
 			return false;
@@ -171,8 +167,8 @@ public class AddProductGUI {
 		}
 	}
 	
-	private boolean displayQuantityTF(boolean validateProductQuantity) {
-		if(!validateProductQuantity) {
+	private boolean displayQuantityTF(boolean validatePQuantity) {
+		if(!validatePQuantity) {
 			productQuantityTF.setStyle("-fx-border-color: red;");
 			productQuantityL.setText("Product Quantity: INVALID, HAS TO BE A WHOLE POSITIVE NUMBER!");
 			return false;

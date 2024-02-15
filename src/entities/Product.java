@@ -83,6 +83,6 @@ public class Product implements Serializable {
 	@Override
 	public String toString() {
 		return productID + " | " + productName + " | " + brand + " | " + category + 
-				" | " + price + " | " + quantity;
+				" | $" + price + " | " + quantity;
 	}
 }
