@@ -10,8 +10,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AddQuantityGUI {
-	private Stage addQuantityStage = new Stage();
+public class RemoveQuantityGUI {
+	private Stage removeQuantityStage = new Stage();
 	private Label quantityL = new Label("Quantity");
 	private TextField quantityTF = new TextField();
 	
@@ -19,9 +19,9 @@ public class AddQuantityGUI {
 	private ObservableList<String> observableShoppingCart;
 	private Label totalL;
 	
-	public AddQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart,
+	public RemoveQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart,
 			Label totatL) {
-		addQuantityStage.setTitle("Adding Quantity");
+		removeQuantityStage.setTitle("Removing Quantity");
 		
 		this.selectedProduct = selectedProduct;
 		this.observableShoppingCart = observableShoppingCart;
@@ -42,18 +42,18 @@ public class AddQuantityGUI {
 		vBox.getChildren().addAll(quantityL, quantityTF, hBoxButton);
 		
 		Scene scene = new Scene(vBox, 300, 100);
-		addQuantityStage.setScene(scene);
+		removeQuantityStage.setScene(scene);
 	}
 	
-	public void showAddProductGUI() {
-		addQuantityStage.show();
+	public void showRemoveQuantityGUI() {
+		removeQuantityStage.show();
 	}
 	
 	
 	private void confirmButtonClicked(ActionEvent event) {
 		String[] splitProduct = selectedProduct.split(" \\| ");
 		int productCap = Integer.parseInt(splitProduct[5]);
-		boolean checkQuantityInput, checkOverCap;
+		boolean checkQuantityInput;
 		
 		checkQuantityInput = displayQuantityTF(ShoppingCartSystem.instance().validateQuantity(productCap,
 				quantityTF.getText()));
@@ -62,22 +62,20 @@ public class AddQuantityGUI {
 			String quantityInput = quantityTF.getText();
 			int convertQuantity = Integer.parseInt(quantityInput);
 			
-			checkOverCap = displayQuantityTF(ShoppingCartSystem.instance().addToCart(splitProduct,
-					observableShoppingCart, convertQuantity, productCap));
+			ShoppingCartSystem.instance().removeFromCart(splitProduct,
+					observableShoppingCart, convertQuantity);
 			
-			if(checkOverCap) {
-				String totalCartPrice;
-				totalCartPrice = ShoppingCartSystem.instance().getCartTotalPrice(observableShoppingCart);
-				
-				totalL.setText("Total: " + totalCartPrice);
-				
-				addQuantityStage.close();
-			}
+			String totalCartPrice;
+			totalCartPrice = ShoppingCartSystem.instance().getCartTotalPrice(observableShoppingCart);
+			
+			totalL.setText("Total: " + totalCartPrice);
+			
+			removeQuantityStage.close();
 		}
 	}
 	
 	private void cancelButtonClicked(ActionEvent event) {
-		addQuantityStage.close();
+		removeQuantityStage.close();
 	}
 	
 	private boolean displayQuantityTF(boolean validatePQuantity) {
@@ -91,5 +89,4 @@ public class AddQuantityGUI {
 			return true;
 		}
 	}
-	
 }

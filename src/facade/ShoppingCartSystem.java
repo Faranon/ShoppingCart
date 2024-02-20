@@ -93,6 +93,14 @@ public class ShoppingCartSystem implements Serializable{
 		shoppingCartGUI.showShoppingCartGUI();
 	}
 	
+	public void openRemoveQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart,
+			Label totatL) {
+		RemoveQuantityGUI removeQuantityGUI = new RemoveQuantityGUI(selectedProduct,
+				observableShoppingCart, totatL);
+		
+		removeQuantityGUI.showRemoveQuantityGUI();
+	}
+	
 	/*
 	 * The checkProduct methods are used to check for valid user input from the text
 	 * fields in the AddProductGUI in order to properly create a product.
@@ -383,6 +391,38 @@ public class ShoppingCartSystem implements Serializable{
 		}
 		
 		return false;
+	}
+	
+	public void removeFromCart(String[] splitProduct, ObservableList<String> observableShoppingCart,
+			int quantityInput) {
+		int index, subtractQInput;
+		double total = 0;
+		String originalString = String.join(" | ", splitProduct);
+		
+		subtractQInput = Integer.parseInt(splitProduct[5]) - quantityInput;
+		splitProduct[5] = String.valueOf(subtractQInput);
+		
+		index = 0;
+		for(String product : observableShoppingCart) {
+			if(product.equals(originalString)) {
+				
+				if(subtractQInput == 0) {
+					observableShoppingCart.remove(index);
+					break;
+				} else {
+					int productID = Integer.parseInt(splitProduct[0]);
+					Product searchedProduct = searchProductById(productID);
+					
+					total = subtractQInput * searchedProduct.getProductPrice();
+					splitProduct[4] = String.valueOf(total);
+					
+					String joinString = String.join(" | ", splitProduct);
+					observableShoppingCart.set(index, joinString);
+					break;
+				}
+			}
+			index++;
+		}
 	}
 	
 	/*

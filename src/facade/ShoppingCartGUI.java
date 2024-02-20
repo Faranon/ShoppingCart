@@ -2,6 +2,7 @@ package facade;
 
 import buttons.AddButton;
 import buttons.GUIButton;
+import buttons.RemoveButton;
 import buttons.SearchButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +14,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -24,7 +24,7 @@ public class ShoppingCartGUI {
 	private TextField searchBarTF = new TextField();
 	private Label totalL = new Label("Total: 0.00");
 	
-	private GUIButton searchButton, addButton, deleteButton, checkoutButton, depositButton, withdrawButton;
+	private GUIButton searchButton, addButton, removeButton, checkoutButton;
 	private ComboBox<String> comboBox;
 	
 	private ListView<String> listViewProducts, listViewShoppingCart;
@@ -37,7 +37,7 @@ public class ShoppingCartGUI {
 		searchBarTF.setPrefWidth(285);
 		
 		listViewProducts = new ListView<String>();
-		listViewProducts.setPrefSize(250, 950);
+		listViewProducts.setPrefSize(250, 500);
 		
 		listViewShoppingCart = new ListView<String>();
 		listViewShoppingCart.setPrefSize(250, 400);
@@ -55,10 +55,12 @@ public class ShoppingCartGUI {
         // buttons
         searchButton = new SearchButton("Search", searchBarTF, comboBox, listViewProducts);
         addButton = new AddButton("Add", listViewProducts, observableShoppingCart, totalL);
+        removeButton = new RemoveButton("Remove", listViewShoppingCart, observableShoppingCart, totalL);
         
         // disable buttons
         addButton.disableProperty().bind(listViewProducts.getSelectionModel().selectedItemProperty().isNull());
-        
+        removeButton.disableProperty().bind(listViewShoppingCart.getSelectionModel().selectedItemProperty().isNull());
+       
         // ShoppingCartGUI format
         SplitPane splitPane = new SplitPane();
         
@@ -69,17 +71,17 @@ public class ShoppingCartGUI {
         vBoxL.getChildren().addAll(hBoxL, listViewProducts);
         
         // right side of split pane
-        HBox hBoxR = new HBox();
+        HBox upHBoxR = new HBox();
+        HBox lowHBoxR = new HBox();
         VBox vBoxR = new VBox();
-        StackPane stackPaneR = new StackPane();
         
         Label cartL = new Label("Cart");
-        cartL.setAlignment(Pos.CENTER);
         cartL.setFont(new Font("Arial", 22));
-        stackPaneR.getChildren().addAll(cartL);
+        upHBoxR.getChildren().addAll(cartL);
+        upHBoxR.setAlignment(Pos.CENTER);
         
-        hBoxR.getChildren().addAll();
-        vBoxR.getChildren().addAll(stackPaneR, listViewShoppingCart, hBoxR, totalL);
+        lowHBoxR.getChildren().addAll(removeButton);
+        vBoxR.getChildren().addAll(upHBoxR, listViewShoppingCart, totalL, lowHBoxR);
         
         splitPane.getItems().addAll(vBoxL, vBoxR);
         
