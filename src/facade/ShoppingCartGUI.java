@@ -30,7 +30,7 @@ public class ShoppingCartGUI {
 	private ListView<String> listViewProducts, listViewShoppingCart;
 	private ObservableList<String> observableProducts, observableShoppingCart;
 	
-	ShoppingCartGUI(Stage primaryStage) {
+	public ShoppingCartGUI(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		primaryStage.setTitle("Shopping Cart");
 		

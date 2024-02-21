@@ -28,8 +28,6 @@ public class LoadProductButton extends GUIButton implements EventHandler<ActionE
 		
 		if(selectedFile != null) {
 			ShoppingCartSystem.instance().readFile(selectedFile, observableProducts);
-			
-			
 		}
 	}
 }

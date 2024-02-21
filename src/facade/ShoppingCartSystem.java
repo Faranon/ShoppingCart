@@ -239,7 +239,7 @@ public class ShoppingCartSystem implements Serializable{
             while ((line = reader.readLine()) != null) {
             	
             	// splits the line into tokens by ","
-            	String[] tokens = line.split(",");
+            	String[] tokens = line.split(" \\| ");
             	
             	// calls a method called validateFileInput to check each token
             	boolean isProductValid = validateFileInput(tokens);
@@ -251,13 +251,8 @@ public class ShoppingCartSystem implements Serializable{
             	} else {
             		
             		// lets the user know which products failed to be added
-            		System.out.print("failed to add product: ");
-            		
-            		for(String token : tokens) {
-            			System.out.print(token.trim() + " ");
-            		}
-            		
-            		System.out.println();
+            		String token = String.join(" \\| ", tokens);
+            		System.out.print("failed to add product: " + token);
             	}
             }
         } catch (IOException e) {
@@ -271,6 +266,10 @@ public class ShoppingCartSystem implements Serializable{
 	 */
 	private boolean validateFileInput(String[] tokens) {
 		boolean checkPName, checkPBrand, checkPCategory, checkPPrice, checkPQuantity;
+		
+		if(tokens.length != 5) {
+			return false;
+		}
 		
 		checkPName = checkProductName(tokens[0].trim());
 		if(!checkPName) {
