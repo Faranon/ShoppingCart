@@ -85,4 +85,9 @@ public class Product implements Serializable {
 		return productID + " | " + productName + " | " + brand + " | " + category + 
 				" | " + String.format("$%.2f", price) + " | " + quantity;
 	}
+	
+	public String writeToFile() {
+		return productName + " | " + brand + " | " + category + 
+				" | " + price + " | " + quantity + "\n";
+	}
 }

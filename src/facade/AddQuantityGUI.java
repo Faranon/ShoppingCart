@@ -16,15 +16,15 @@ public class AddQuantityGUI {
 	private TextField quantityTF = new TextField();
 	
 	private String selectedProduct;
-	private ObservableList<String> observableShoppingCart;
+	private ObservableList<String> observableCart;
 	private Label totalL;
 	
-	public AddQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart,
+	public AddQuantityGUI(String selectedProduct, ObservableList<String> observableCart,
 			Label totatL) {
 		addQuantityStage.setTitle("Adding Quantity");
 		
 		this.selectedProduct = selectedProduct;
-		this.observableShoppingCart = observableShoppingCart;
+		this.observableCart = observableCart;
 		this.totalL = totatL;
 		
 		Button cancelButton = new Button("Cancel");
@@ -63,11 +63,11 @@ public class AddQuantityGUI {
 			int convertQuantity = Integer.parseInt(quantityInput);
 			
 			checkOverCap = displayQuantityTF(ShoppingCartSystem.instance().addToCart(splitProduct,
-					observableShoppingCart, convertQuantity, productCap));
+					observableCart, convertQuantity, productCap));
 			
 			if(checkOverCap) {
 				String totalCartPrice;
-				totalCartPrice = ShoppingCartSystem.instance().getCartTotalPrice(observableShoppingCart);
+				totalCartPrice = ShoppingCartSystem.instance().getCartTotalPrice(observableCart);
 				
 				totalL.setText("Total: " + totalCartPrice);
 				

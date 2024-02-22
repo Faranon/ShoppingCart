@@ -16,15 +16,15 @@ public class RemoveQuantityGUI {
 	private TextField quantityTF = new TextField();
 	
 	private String selectedProduct;
-	private ObservableList<String> observableShoppingCart;
+	private ObservableList<String> observableCart;
 	private Label totalL;
 	
-	public RemoveQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart,
+	public RemoveQuantityGUI(String selectedProduct, ObservableList<String> observableCart,
 			Label totatL) {
 		removeQuantityStage.setTitle("Removing Quantity");
 		
 		this.selectedProduct = selectedProduct;
-		this.observableShoppingCart = observableShoppingCart;
+		this.observableCart = observableCart;
 		this.totalL = totatL;
 		
 		Button cancelButton = new Button("Cancel");
@@ -63,10 +63,10 @@ public class RemoveQuantityGUI {
 			int convertQuantity = Integer.parseInt(quantityInput);
 			
 			ShoppingCartSystem.instance().removeFromCart(splitProduct,
-					observableShoppingCart, convertQuantity);
+					observableCart, convertQuantity);
 			
 			String totalCartPrice;
-			totalCartPrice = ShoppingCartSystem.instance().getCartTotalPrice(observableShoppingCart);
+			totalCartPrice = ShoppingCartSystem.instance().getCartTotalPrice(observableCart);
 			
 			totalL.setText("Total: " + totalCartPrice);
 			

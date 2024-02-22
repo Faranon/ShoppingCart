@@ -6,8 +6,10 @@
 package facade;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import collections.ProductList;
@@ -78,9 +80,9 @@ public class ShoppingCartSystem implements Serializable{
 		editProductGUI.showEditProductGUI();
 	}
 	
-	public void openAddQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart,
+	public void openAddQuantityGUI(String selectedProduct, ObservableList<String> observableCart,
 			Label totatL) {
-		AddQuantityGUI addQuantityGUI = new AddQuantityGUI(selectedProduct, observableShoppingCart, totatL);
+		AddQuantityGUI addQuantityGUI = new AddQuantityGUI(selectedProduct, observableCart, totatL);
 		addQuantityGUI.showAddProductGUI();
 	}
 	
@@ -93,12 +95,22 @@ public class ShoppingCartSystem implements Serializable{
 		shoppingCartGUI.showShoppingCartGUI();
 	}
 	
-	public void openRemoveQuantityGUI(String selectedProduct, ObservableList<String> observableShoppingCart,
+	public void openRemoveQuantityGUI(String selectedProduct, ObservableList<String> observableCart,
 			Label totatL) {
 		RemoveQuantityGUI removeQuantityGUI = new RemoveQuantityGUI(selectedProduct,
-				observableShoppingCart, totatL);
+				observableCart, totatL);
 		
 		removeQuantityGUI.showRemoveQuantityGUI();
+	}
+	
+	public void openLoginGUI(ObservableList<String> observableProducts, Stage primaryStage) {
+		LoginGUI loginGUI = new LoginGUI(observableProducts, primaryStage);
+		loginGUI.showLoginGUI();
+	}
+	
+	public void openInitializationGUI(ObservableList<String> observableProducts, Stage primaryStage) {
+		InitializationGUI initializationGUI = new InitializationGUI(observableProducts, primaryStage);
+		initializationGUI.showInitializationGUI();
 	}
 	
 	/*
@@ -252,7 +264,7 @@ public class ShoppingCartSystem implements Serializable{
             		
             		// lets the user know which products failed to be added
             		String token = String.join(" \\| ", tokens);
-            		System.out.print("failed to add product: " + token);
+            		System.out.println("failed to add product: " + token);
             	}
             }
         } catch (IOException e) {
@@ -371,20 +383,20 @@ public class ShoppingCartSystem implements Serializable{
 	 * The if else statement calls a method called checkProductInCartAndCapped which is a boolean method.
 	 * If it is true, it returns true. Otherwise, the method returns false.
 	 */
-	public boolean addToCart(String[] splitProduct, ObservableList<String> observableShoppingCart,
+	public boolean addToCart(String[] splitProduct, ObservableList<String> observableCart,
 			int quantityInput, int productCap) {
 		
 		double total = 0;
 		
 		// if cart is empty, add it to the cart
-		if(observableShoppingCart.isEmpty()) {
+		if(observableCart.isEmpty()) {
 			total = getProductTotalPrice(total, splitProduct, quantityInput);
 			
 			String combinedProduct = stringConversionsAddingToCart(total, splitProduct, quantityInput);
 			
-			observableShoppingCart.add(combinedProduct);
+			observableCart.add(combinedProduct);
 			return true;
-		} else if(checkProductInCartAndCapped(splitProduct, observableShoppingCart,
+		} else if(checkProductInCartAndCapped(splitProduct, observableCart,
 				quantityInput, productCap, total)) {
 			return true;
 		}
@@ -392,7 +404,7 @@ public class ShoppingCartSystem implements Serializable{
 		return false;
 	}
 	
-	public void removeFromCart(String[] splitProduct, ObservableList<String> observableShoppingCart,
+	public void removeFromCart(String[] splitProduct, ObservableList<String> observableCart,
 			int quantityInput) {
 		int index, subtractQInput;
 		double total = 0;
@@ -402,11 +414,11 @@ public class ShoppingCartSystem implements Serializable{
 		splitProduct[5] = String.valueOf(subtractQInput);
 		
 		index = 0;
-		for(String product : observableShoppingCart) {
+		for(String product : observableCart) {
 			if(product.equals(originalString)) {
 				
 				if(subtractQInput == 0) {
-					observableShoppingCart.remove(index);
+					observableCart.remove(index);
 					break;
 				} else {
 					int productID = Integer.parseInt(splitProduct[0]);
@@ -416,7 +428,7 @@ public class ShoppingCartSystem implements Serializable{
 					splitProduct[4] = String.valueOf(total);
 					
 					String joinString = String.join(" | ", splitProduct);
-					observableShoppingCart.set(index, joinString);
+					observableCart.set(index, joinString);
 					break;
 				}
 			}
@@ -430,13 +442,13 @@ public class ShoppingCartSystem implements Serializable{
 	 * maximum quantity available. 
 	 */
 	private boolean checkProductInCartAndCapped(String[] splitProduct,
-			ObservableList<String> observableShoppingCart, int quantityInput, int productCap, double total) {
+			ObservableList<String> observableCart, int quantityInput, int productCap, double total) {
 		
 		// used to track the index position inside the observableShoppingCart
 		int index = 0;
 		
 		// iterates through the cart, splitting the product information into tokens
-		for(String product : observableShoppingCart) {
+		for(String product : observableCart) {
 			String[] searchedP = product.split(" \\| ");
 			
 			// searchedP[0] and splitProduct[0] are both pIDs that are compared with each other
@@ -450,7 +462,7 @@ public class ShoppingCartSystem implements Serializable{
 					
 					String combinedProduct = stringConversionsAddingToCart(total, splitProduct, quantityInput);
 					
-					observableShoppingCart.set(index, combinedProduct);
+					observableCart.set(index, combinedProduct);
 					return true;
 				} else
 					return false;
@@ -465,7 +477,7 @@ public class ShoppingCartSystem implements Serializable{
 			
 			String combinedProduct = stringConversionsAddingToCart(total, splitProduct, quantityInput);
 			
-			observableShoppingCart.add(combinedProduct);
+			observableCart.add(combinedProduct);
 			return true;
 		}
 		
@@ -503,11 +515,11 @@ public class ShoppingCartSystem implements Serializable{
 	 * This method gets the total cost of all products in the cart. It takes the observableShoppingCart
 	 * which contains all the products currently in the cart and adds up the total of all products.
 	 */
-	public String getCartTotalPrice(ObservableList<String> observableShoppingCart) {
+	public String getCartTotalPrice(ObservableList<String> observableCart) {
 		double total = 0;
 		
 		// iterates through the observableShoppingCart, the string product gets all the product info
-		for(String product : observableShoppingCart) {
+		for(String product : observableCart) {
 			
 			// split the product info into tokens
 			String[] splitP = product.split(" \\| ");
@@ -516,8 +528,8 @@ public class ShoppingCartSystem implements Serializable{
 			int pID = Integer.parseInt(splitP[0]);
 			
 			// find the product associated with the pID and get the price of the product
-			Product searchProduct = searchProductById(pID);
-			Double priceOfProduct = searchProduct.getProductPrice();
+			Product searchedProduct = searchProductById(pID);
+			Double priceOfProduct = searchedProduct.getProductPrice();
 			
 			total = total + priceOfProduct * Double.parseDouble(splitP[5]);
 		}
@@ -525,5 +537,49 @@ public class ShoppingCartSystem implements Serializable{
 		String totalCartPrice = String.format("$%.2f", total);
 		
 		return totalCartPrice;
+	}
+	
+	public void checkOut(ObservableList<String> observableCart) {
+		for(String product : observableCart) {
+			String[] splitP = product.split(" \\| ");
+			int pQuantity, inQuantity, pID;
+			
+			pID = Integer.parseInt(splitP[0]);
+			inQuantity = Integer.parseInt(splitP[5]);
+			
+			Product searchedProduct = searchProductById(pID);
+			pQuantity = searchedProduct.getProductQuantity() - inQuantity;
+			
+			searchedProduct.setProductQuantity(pQuantity);
+		}
+		writeToFile();
+		observableCart.clear();
+	}
+	
+	private void writeToFile() {
+		File selectedFile = new File("productOrder.txt");
+		
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile, false))) {
+			for(Product writeProduct : products) {
+				writer.write(writeProduct.writeToFile());
+			}
+		} catch(IOException e) {
+			System.out.println("An error occured while writing to the file.");
+		}
+	}
+	
+	public boolean checkUsername(String userName) {
+		if(userName.equals("admin")) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean checkPassword(String password) {
+		if(password.equals("admin")) {
+			return true;
+		}
+		
+		return false;
 	}
 }

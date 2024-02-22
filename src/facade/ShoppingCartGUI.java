@@ -1,7 +1,9 @@
 package facade;
 
 import buttons.AddButton;
+import buttons.CheckoutButton;
 import buttons.GUIButton;
+import buttons.LoginButton;
 import buttons.RemoveButton;
 import buttons.SearchButton;
 import javafx.collections.FXCollections;
@@ -22,13 +24,13 @@ public class ShoppingCartGUI {
 	private Stage primaryStage;
 	
 	private TextField searchBarTF = new TextField();
-	private Label totalL = new Label("Total: 0.00");
+	private Label totalL = new Label("Total: $0.00");
 	
-	private GUIButton searchButton, addButton, removeButton, checkoutButton;
+	private GUIButton searchButton, addButton, removeButton, checkoutButton, loginButton;
 	private ComboBox<String> comboBox;
 	
-	private ListView<String> listViewProducts, listViewShoppingCart;
-	private ObservableList<String> observableProducts, observableShoppingCart;
+	private ListView<String> listViewProducts, listViewCart;
+	private ObservableList<String> observableProducts, observableCart;
 	
 	public ShoppingCartGUI(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -39,11 +41,11 @@ public class ShoppingCartGUI {
 		listViewProducts = new ListView<String>();
 		listViewProducts.setPrefSize(250, 500);
 		
-		listViewShoppingCart = new ListView<String>();
-		listViewShoppingCart.setPrefSize(250, 400);
+		listViewCart = new ListView<String>();
+		listViewCart.setPrefSize(250, 400);
 		
-		observableShoppingCart = FXCollections.observableArrayList();
-		listViewShoppingCart.setItems(observableShoppingCart);
+		observableCart = FXCollections.observableArrayList();
+		listViewCart.setItems(observableCart);
 		
 		// method used to get products list
 		getObservableProducts();
@@ -54,13 +56,16 @@ public class ShoppingCartGUI {
 		
         // buttons
         searchButton = new SearchButton("Search", searchBarTF, comboBox, listViewProducts);
-        addButton = new AddButton("Add", listViewProducts, observableShoppingCart, totalL);
-        removeButton = new RemoveButton("Remove", listViewShoppingCart, observableShoppingCart, totalL);
+        addButton = new AddButton("Add", listViewProducts, observableCart, totalL);
+        removeButton = new RemoveButton("Remove", listViewCart, observableCart, totalL);
+        checkoutButton = new CheckoutButton("Check Out", observableProducts, observableCart, totalL);
+        loginButton = new LoginButton("Login", observableProducts, primaryStage);
         
         // disable buttons
         addButton.disableProperty().bind(listViewProducts.getSelectionModel().selectedItemProperty().isNull());
-        removeButton.disableProperty().bind(listViewShoppingCart.getSelectionModel().selectedItemProperty().isNull());
-       
+        removeButton.disableProperty().bind(listViewCart.getSelectionModel().selectedItemProperty().isNull());
+        checkoutButton.disableProperty().bind(listViewCart.getSelectionModel().selectedItemProperty().isNull());
+        
         // ShoppingCartGUI format
         SplitPane splitPane = new SplitPane();
         
@@ -80,8 +85,8 @@ public class ShoppingCartGUI {
         upHBoxR.getChildren().addAll(cartL);
         upHBoxR.setAlignment(Pos.CENTER);
         
-        lowHBoxR.getChildren().addAll(removeButton);
-        vBoxR.getChildren().addAll(upHBoxR, listViewShoppingCart, totalL, lowHBoxR);
+        lowHBoxR.getChildren().addAll(removeButton, checkoutButton, loginButton);
+        vBoxR.getChildren().addAll(upHBoxR, listViewCart, totalL, lowHBoxR);
         
         splitPane.getItems().addAll(vBoxL, vBoxR);
         
